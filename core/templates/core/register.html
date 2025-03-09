@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="text-center py-16">
+        <h1 class="text-4xl font-bold mb-6 text-gray-800">Choose the profile !</h1>
+        <p class="text-xl text-gray-600 mb-8">Tell us who are you ?. To unlock full features and personalized experience!</p>
+        <div class="space-x-4">
+            <a href="{% url 'core:parent_registration' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+                Parent
+            </a>
+            <a href="{% url 'core:health_worker_registration' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
+                Health Worker
+            </a>
+            
+        </div>
+    </div>
+{% endblock%}
