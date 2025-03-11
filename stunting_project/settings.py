@@ -150,5 +150,9 @@ REST_FRAMEWORK = {
     ]
 }
 
-# model used for authentication
+# model used for authentication and authentication backends 
 AUTH_USER_MODEL = 'core.CustomUser'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # default authentication backend
+]
