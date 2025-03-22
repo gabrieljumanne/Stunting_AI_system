@@ -145,9 +145,8 @@ class CustomAuthenticationForm(AuthenticationForm):
     
     def clean(self):
         #parent clean methon to handle username/password validation
-        cleaned_data = super().clean()
-        
-        return cleaned_data
+       
+        return super().clean()
            
         
         

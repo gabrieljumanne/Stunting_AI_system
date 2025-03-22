@@ -119,9 +119,9 @@ class UserLogInView(LoginView):
     def get_success_url(self):
         """Redirect users based on their role after login."""
         if self.request.user.role == 'parent':
-            return reverse_lazy('parent_dashboard')
+            return reverse_lazy('dashbord:parent_dashbord')
         elif self.request.user.role == 'health_worker':
-            return reverse_lazy('health_worker_dashboard')
+            return reverse_lazy('dashbord:health_worker_dashbord')
         return reverse_lazy('core:home')
     
 

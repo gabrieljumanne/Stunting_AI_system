@@ -21,9 +21,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('core/', include('core.urls')),
+    path('', include('core.urls')),
+    path('measurement/', include('measurement.urls')),
+    path('dashbord/', include('dashbord.urls')),
     # path('articles/', include('articles.urls')),
-    # path('dashbord/', include('dashbord.urls')),
     # path('ai_assitance/', include('ai_assitance.urls')),
-    # path('measurement/', include('measurement.urls'))
+   
 ]

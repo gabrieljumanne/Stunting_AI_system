@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h1 class="text-3xl font-bold mb-6 text-gray-800">Welcome, {{ user.first_name|default:user.username }}!</h1>
+        
+        <!-- Dashboard Quick Access -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Stunting Measurement</h2>
+                <div>
+                    <h3 class="text-lg font-semibold mb-1">Recent measurement</h3>
+                    <p class="my-1"><strong>Childname:</strong> {{ latest_child.name }}</p>
+                    <p class="my-1"><strong>Age:</strong> {{ latest_child.date_of_birth }}</p>
+                    <p class="my-1"><strong>Stunted:</strong> {{ latest_child_result.is_stunted}}</p>
+                </div>
+            </div>
+
+            <div class="bg-green-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="" class="text-green-600 hover:underline">
+                            <i class="fas fa-user mr-2"></i>Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="text-green-600 hover:underline">
+                            <i class="fas fa-lock mr-2"></i>Change Password
+                        </a>
+                    </li>
+                    <li>
+                        <form id="logout-form" action="#" method="POST" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-green-600 hover:underline bg-transparent border-none cursor-pointer">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Log Out
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-purple-50 p-4 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Additional Features</h2>
+                <p class="text-gray-600">Placeholder for site-specific features or recent activity.</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

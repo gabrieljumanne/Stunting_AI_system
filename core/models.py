@@ -1,12 +1,58 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, PermissionsMixin, Group, Permission
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 
 
-# Create your models here.
+# Custom usermanager
+class CustomUsermanager(BaseUserManager):
+    def create_user(self, username, email, fullname,role, password=None, **extra_fields):
+        """create and return regular user wih required fields"""
+        if not username:
+            raise ValueError("User must have the username")
+        if not email:
+            raise ValueError("user must have an email address")
+        if not fullname:
+            raise ValueError("User must have a fullname")
+        if role not in ['parent', 'health_worker']:
+            raise ValueError("Role must me either 'parent' or 'health_worker' ")
+        
+        email = self.normalize_email(email)
+        #user-creation and password set
+        user = self.model(
+            username=username,
+            email=email,
+            fullname=fullname,
+            role = role,
+            **extra_fields
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, username, email, fullname, password=None, **extra_fields):
+        """create and return super user"""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)     
+        
+        # super user is the health_worker
+        return self.create_user(
+            username=username,
+            email=email,
+            fullname=fullname,
+            role='health_worker',
+            password=password,
+            **extra_fields
+        )   
+        
+    def get_by_natural_key(self, username):
+        """Required for the django authentication """
+        return self.get(username=username)
+        
+
+
 
 #user model(profile)
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -82,12 +128,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default='eng',
 
     )
-    
+    #usermanager
+    objects = CustomUsermanager()
     # model configuration
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = [
-        "fullname"
+        "email",
+        "fullname",
+        "role",
     ]
     
     class Meta:
