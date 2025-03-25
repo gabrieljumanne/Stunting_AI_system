@@ -22,7 +22,10 @@ from django.utils import timezone
 # Create your views here.
 
 class  UserRegistrationView(TemplateView):
+    """fall back pazge for non authenticated user"""
     template_name = 'core/register.html'
+     
+               
     
 
 @method_decorator(sensitive_post_parameters(), name='post')
@@ -34,9 +37,12 @@ class ParentRegistrationView(CreateView):
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
         #redirect login users to home page 
-        if request.user.is_authenticated:
-            messages.info(request, "You are ready registed and login")
-            return redirect(reverse_lazy('core:home'))
+        # if request.user.is_authenticated:
+        #     messages.info(request, "You are ready registed and login")
+        #     if request.user.role == 'parent':
+        #         return redirect(reverse_lazy('dashbord:parent_dashbord'))
+        #     else:
+        #         return redirect(reverse_lazy('dashbord:healt-worker-dashbord'))
         return super().dispatch(request, *args, **kwargs)
     
     def form_valid(self, form):
