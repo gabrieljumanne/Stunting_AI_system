@@ -19,6 +19,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import CustomUser
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -133,13 +134,64 @@ class UserLogInView(LoginView):
     
 
 class UserLogOutView(LogoutView):
-    pass
+    next_page = reverse_lazy("core:register")
+    
+    @method_decorator(never_cache)
+    @method_decorator(csrf_protect)
+    def dispatch(self, request, *args, **kwargs):
+        
+        if request.method != 'POST': 
+            messages.warning(
+                self.request, 
+                _("Please can use the logout button to logout")
+            )
+            return redirect(reverse_lazy("core:register"))
+        
+        return super().dispatch(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        """processing the logout(session cleaning) and redirect the user mechanism"""
+        
+        # get the username 
+        username = request.user.get_short_name() or request.user.username
+        
+        #cleaning the session sensitive data 
+        for key in list(request.session.keys()):
+            if key.startswith('sensitive_'):
+                del request.session[key]
+        
+        # logout the user
+        response = super().post(request, *args, **kwargs)
+
+        messages.success(
+            self.request, 
+            _(f"Goodbye, {username}! , You are successfully logged out")
+        )
+        
+        # clear all session data 
+        request.session.flush()
+        
+        return response 
+    
+    def get_next_page(self):
+        """Returns the url of the nextpage to redirect after the logout
+        """
+        next_page = self.request.POST.get('next') or self.request.GET.get('next')
+        
+        # validity check for the next page 
+        if next_page and url_has_allowed_host_and_scheme(
+            allowed_hosts={self.request.get_host()},
+            require_https= self.request.is_secure()
+        ):
+            return next_page
+        
+        return super().get_next_page()
 
 
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     """View handling profile editing"""
     model = CustomUser
-    template_name = '#'
+    template_name = 'core/profile_edit.html'
     
     def get_form_class(self):
         """form class based on the role"""
@@ -162,13 +214,44 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f"Edit {self.request.user.get_role_display()} Profile"
+        context['user'] = self.request.user
         
         #role specific content 
         
         return context
     
     def form_valid(self, form):
-        messages.success(self.request, "Your profile is successfull Updated")
-        return super().form_valid(form)
+        try:
+            messages.success(self.request, "Your profile is successfully updated")
+            response = super().form_valid(form)
+            
+            # AJAX handling
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': "Your profile has been successfully updated"
+                })
+            
+            return response
+        except Exception as e:
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'message': f"Error updating profile: {str(e)}"
+                }, status=500)
+            raise  # Re-raise exception 
     
-    
+    def form_invalid(self, form):
+        """Handle form validation errors"""
+        print(f"Form errors: {form.errors}")  # Add this for debugging
+
+        # If AJAX request, return JSON with errors
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'message': "Please correct the errors below",
+                'errors': form.errors
+            }, status=400)
+            
+        messages.error(self.request, "Please correct the errors below")
+        return super().form_invalid(form)

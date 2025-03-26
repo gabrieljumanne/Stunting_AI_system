@@ -31,9 +31,9 @@
                 <h2 class="text-xl font-semibold mb-4">Quick Actions</h2>
                 <ul class="space-y-2">
                     <li>
-                        <a href="" class="text-green-600 hover:underline">
+                        <button id="openProfileEditModal" class="text-green-600 hover:underline bg-transparent border-none cursor-pointer flex items-center w-full text-left">
                             <i class="fas fa-user mr-2"></i>Edit Profile
-                        </a>
+                        </button>
                     </li>
                     <li>
                         <a href="" class="text-green-600 hover:underline">
@@ -77,4 +77,11 @@
             </div>
         </div>
     </div>
+{% include 'core/profile_edit.html' %}
+
 {% endblock content %}
+
+{% block extra_scripts %}
+{% load static %}
+<script src="{% static 'core/js/profile-modal.js' %}"></script>
+{% endblock %}

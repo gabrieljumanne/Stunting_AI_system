@@ -1,0 +1,107 @@
+{% load static %}
+
+<!-- Profile Edit Modal Backdrop -->
+<div id="profileEditModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+  <!-- Overlay -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+  
+  <!-- Modal Container -->
+  <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto relative">
+      <!-- Close Button -->
+      <button id="closeProfileModal" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">
+        <i class="fas fa-times"></i>
+      </button>
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b">
+        <h3 class="text-lg font-semibold text-gray-700">{{title}}</h3>
+      </div>
+      
+      <!-- Modal Content -->
+      <div class="px-6 py-4">
+        <div id="modalMessages" class="mb-4 hidden"></div>
+        
+        <form id="profileEditForm" method="post">
+          {% csrf_token %}
+          
+          <!-- Read-only Fields -->
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Username</label>
+            <input type="text" value="{{ user.username }}" class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-500" readonly>
+          </div>
+          
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Role</label>
+            <input type="text" value="{{ user.get_role_display }}" class="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md shadow-sm text-gray-500" readonly>
+          </div>
+          
+          <!-- Form Fields -->
+          <div class="space-y-4">
+            <!-- Name Field -->
+            <div>
+              <label for="id_fullname" class="block text-sm font-medium text-gray-700">Full Name</label>
+              <input type="text" name="fullname" value="{{ user.fullname }}" id="id_fullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              <p class="error-message text-red-500 text-sm hidden" id="error_fullname"></p>
+            </div>
+            
+            <!-- Email Field -->
+            <div>
+              <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" name="email" value="{{ user.email }}" id="id_email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              <p class="error-message text-red-500 text-sm hidden" id="error_email"></p>
+            </div>
+
+            <!-- Language Preferences Field - THIS WAS MISSING -->
+            <div class="mb-4">
+                <label for="id_language_preferences" class="block text-sm font-medium text-gray-700">Language Preference</label>
+                <select name="language_preferences" id="id_language_preferences" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <option value="eng" {% if user.language_preferences == "eng" %}selected{% endif %}>English</option>
+                <option value="swa" {% if user.language_preferences == "swa" %}selected{% endif %}>Swahili</option>
+                <option value="fr" {% if user.language_preferences == "fr" %}selected{% endif %}>French</option>
+                </select>
+                <p class="error-message text-red-500 text-sm hidden" id="error_language_preferences"></p>
+            </div>
+            
+            {% if user.role == 'parent' %}
+              <!-- Parent-specific Fields -->
+              <div>
+                <label for="id_address" class="block text-sm font-medium text-gray-700">Address</label>
+                <textarea name="address" id="id_address" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">{{ user.parentprofile.address }}</textarea>
+              </div>
+              
+              <div>
+                <label for="id_phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                <input type="text" name="phone_number" value="{{ user.parentprofile.phone_number }}" id="id_phone_number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <p class="error-message text-red-500 text-sm hidden" id="error_phone_number"></p>
+              </div>
+            {% else %}
+              <!-- Health Worker-specific Fields -->
+              <div>
+                <label for="id_professional_id" class="block text-sm font-medium text-gray-700">Professional ID</label>
+                <input type="text" name="professional_id" value="{{ user.healthworkerprofile.professional_id }}" id="id_professional_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              </div>
+              
+              <div>
+                <label for="id_health_facility" class="block text-sm font-medium text-gray-700">Health Facility</label>
+                <input type="text" name="health_facility" value="{{ user.healthworkerprofile.health_facility }}" id="id_health_facility" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+              </div>
+            {% endif %}
+        </div>
+
+          
+          
+          <!-- Form Buttons -->
+          <div class="mt-6 flex justify-end space-x-3">
+            <button type="button" id="cancelEditProfile" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
