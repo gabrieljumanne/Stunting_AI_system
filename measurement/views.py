@@ -16,7 +16,7 @@ class ChildRegistrationView(CreateView):
     model = Child
     form_class = ChildForm
     template_name = 'measurement/child_register.html'
-    success_url = reverse_lazy('measurement:child_measure')
+
     
     @method_decorator(sensitive_post_parameters())
     @method_decorator(never_cache)
@@ -33,6 +33,10 @@ class ChildRegistrationView(CreateView):
         kwargs = super().get_form_kwargs()
         kwargs['parent'] = self.request.user
         return kwargs
+    
+    def get_success_url(self):
+        #self.objedct for new created child 
+        return reverse_lazy("measurement:child_measure", kwargs={'child_id':self.object.id})
     
     def form_valid(self, form):
         """set the parent field to the login user"""
@@ -76,7 +80,7 @@ class ChildMeasurementView(CreateView):
             Child, 
             pk = self.kwargs['child_id'],
             parent = self.request.user
-        )
+        ) 
         kwargs['child'] = self.child
         return kwargs
     

@@ -110,9 +110,9 @@ class Measurement(models.Model):
     def save(self, *args, **kwargs):
         #age_month calculataion logic 
         dob = self.child.date_of_birth
-        measurement_date = self.date or timezone().now().date()
+        measurement_date = self.date or timezone.now().date()
         delta = relativedelta(measurement_date, dob)
-        self.age_months = delta.years * 12 + delta.month
+        self.age_months = delta.years * 12 + delta.months
         super().save(*args, **kwargs)
         
     def __str__(self):

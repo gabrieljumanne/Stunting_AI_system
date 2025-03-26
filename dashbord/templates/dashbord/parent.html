@@ -7,12 +7,23 @@
         <!-- Dashboard Quick Access -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-blue-50 p-4 rounded-lg">
-                <h2 class="text-xl font-semibold mb-4">Stunting Measurement</h2>
+                <a href="{% url 'measurement:child_register' %}" class="hover:text-blue-600 block">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-ruler-vertical mr-2"></i>Stunting Measurement
+                    </h2>
+                </a>
                 <div>
                     <h3 class="text-lg font-semibold mb-1">Recent measurement</h3>
                     <p class="my-1"><strong>Childname:</strong> {{ latest_child.name }}</p>
                     <p class="my-1"><strong>Age:</strong> {{ latest_child.date_of_birth }}</p>
-                    <p class="my-1"><strong>Stunted:</strong> {{ latest_child_result.is_stunted}}</p>
+                    {%if latest_child_result.is_stunted%}
+                    <p class="my-1"><strong>Stunted:</strong> Yes</p>
+                    <p class="my-1"><strong>Status:</strong> Your child is growing well</p>
+
+                    {%else%}
+                        <p class="my-1"><strong>Stunted:</strong> No</p>
+                        <p class="my-1"><strong>Status:</strong> Your child growth is not well visit medical assistance</p>
+                    {%endif%}
                 </div>
             </div>
 
@@ -41,8 +52,28 @@
             </div>
 
             <div class="bg-purple-50 p-4 rounded-lg">
-                <h2 class="text-xl font-semibold mb-4">Additional Features</h2>
-                <p class="text-gray-600">Placeholder for site-specific features or recent activity.</p>
+                <h2 class="text-xl font-semibold mb-4">AI-Assistance</h2>
+                <ul class="space-y-3">
+                    <li>
+                        <a href="#" class="flex items-center text-purple-600 hover:text-purple-800 transition-colors group">
+                            <div class="bg-purple-100 p-2 rounded-full mr-3 group-hover:bg-purple-200">
+                                <i class="fas fa-robot text-purple-500"></i>
+                            </div>
+                            <span>Chatbot Assistance</span>
+                            <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center text-purple-600 hover:text-purple-800 transition-colors group">
+                            <div class="bg-purple-100 p-2 rounded-full mr-3 group-hover:bg-purple-200">
+                                <i class="fas fa-camera text-purple-500"></i>
+                            </div>
+                            <span>Camera Assistance</span>
+                            <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-sm text-purple-600 italic mt-4">Get AI-powered guidance for your child's growth and development</p>
             </div>
         </div>
     </div>
