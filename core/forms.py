@@ -148,5 +148,73 @@ class CustomAuthenticationForm(AuthenticationForm):
        
         return super().clean()
            
+
+class BaseProfileEditForm(forms.ModelForm):
+    #read-only field for role and username 
+    username_display = forms.CharField(required=False, label="Username", widget=forms.TextInput(attrs={'readonly':True}))
+    role_display = forms.CharField(required=False, label="Role", widget=forms.TextInput(attrs={'readonly': True}))
+    
+    class Meta:
+        model = CustomUser
+        #only editable fields .
+        fields = ['fullname', 'email', 'language_preferences']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #intialization of the non-editable fields 
+        if self.instance.pk:
+            self.fields['username_display'].initial = self.instance.username 
+            self.fields['role_display'].initial = self.instance.role
+            
+                
+# parentedit form 
+class ParentprofileEditForm(BaseProfileEditForm):
+    """Form for parent-specific fields"""
+    address = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), required=False)
+    phone_number = forms.CharField(max_length=10, required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Initialize profile fields if profile exists
+        try:
+            if self.instance and self.instance.pk:
+                parent_profile = ParentProfile.objects.get(user=self.instance)
+                self.fields['address'].initial = parent_profile.address
+                self.fields['phone_number'].initial = parent_profile.phone_number
+        except ParentProfile.DoesNotExist:
+            pass
+            
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+        if commit:
+            # Get or create the profile model
+            parent_profile, created = ParentProfile.objects.get_or_create(user=user)
+            parent_profile.address = self.cleaned_data['address']
+            parent_profile.phone_number = self.cleaned_data['phone_number']
+            parent_profile.save()
+        return user      
         
         
+class HealthWorkerProfileEditForm(BaseProfileEditForm):
+    """form for Health worker specific fields """
+    professional_id= forms.CharField(max_length=50, required=False)
+    health_facility = forms.CharField(max_length=50, required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        #initialization of profiles fields 
+        try:
+            if self.instance and self.instance.pk:
+                hw_profile = HealthWorkerProfile.objects.get(user=self.instance)
+                self.fields['professinal_id'].initial = hw_profile.professional_id
+                self.fields['health_facility'].initial = hw_profile.health_facility
+        except HealthWorkerProfile.DoesNotExist:
+            pass
+        
+    def save(self, commit=True):
+        user = super().save(commit=commit)
+        hw_profile, created = HealthWorkerProfile.objects.get_or_create(user=user)
+        hw_profile.professional_id = self.cleaned_data['professional_id']
+        hw_profile.health_facility = self.cleaned_data['health_facility']
+        hw_profile.save()
+        return user

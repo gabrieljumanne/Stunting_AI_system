@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.conf import settings 
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, UpdateView
 from django.views.generic.edit import CreateView 
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, LogoutView
@@ -14,10 +14,11 @@ from django.core.exceptions import PermissionDenied
 from django.views.decorators.debug import sensitive_post_parameters, sensitive_variables
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from .forms import ParentRegistrationForm, HealthWorkerRegistrationForm, CustomAuthenticationForm
+from .forms import ParentRegistrationForm, HealthWorkerRegistrationForm, CustomAuthenticationForm, ParentprofileEditForm, HealthWorkerProfileEditForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from .models import CustomUser
 
 # Create your views here.
 
@@ -133,3 +134,41 @@ class UserLogInView(LoginView):
 
 class UserLogOutView(LogoutView):
     pass
+
+
+class ProfileEditView(LoginRequiredMixin, UpdateView):
+    """View handling profile editing"""
+    model = CustomUser
+    template_name = '#'
+    
+    def get_form_class(self):
+        """form class based on the role"""
+        if self.request.user.role =='parent':
+            return ParentprofileEditForm
+        else:
+            return HealthWorkerProfileEditForm
+        
+    def get_object(self, queryset =None):
+        """Esures that each user can edit there own profile"""
+        return self.request.user
+    
+    def get_success_url(self):
+        """redirect based on there role after successfull update"""
+        if self.request.user.role == 'parent':
+            return reverse_lazy('dashbord:parent_dashbord')
+        else:
+            return reverse_lazy('dashbord:health_worker_dashbord')
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f"Edit {self.request.user.get_role_display()} Profile"
+        
+        #role specific content 
+        
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Your profile is successfull Updated")
+        return super().form_valid(form)
+    
+    
