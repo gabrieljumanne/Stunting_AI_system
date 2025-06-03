@@ -5,70 +5,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Stunting Project{% endblock %}</title>
+
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-gray-100 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-md">
+
+    <!-- Fixed Top Navigation -->
+    <nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex">
-                    <!-- Site Name -->
-                    <div class="flex-shrink-0 flex items-center">
-                        <a href="#" class="text-2xl font-bold text-blue-600">Stunting AI-System</a>
-                    </div>
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo / Brand Name -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-blue-600">Stunting AI-System</a>
                 </div>
-                
+
                 <!-- User Navigation -->
                 <div class="flex items-center space-x-4">
                     {% if user.is_authenticated %}
-                    <div class="relative group">
-                        <button class="flex items-center text-gray-700 hover:text-blue-600">
-                            <i class="fas fa-user-circle mr-2"></i>
-                            {{ user.username }}
-                        </button>
-                        <!-- Dropdown Menu -->
-                        <div class="absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-out origin-top-right">
-                            <div class="py-1">
-                                {% comment %} <a href="#"  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-user mr-2"></i>Profile
-                                </a> {% endcomment %}
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-cog mr-2"></i>Account Settings
-                                </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>Log out
-                                </a>
+                        <div class="relative group">
+                            <button class="flex items-center text-gray-700 hover:text-blue-600">
+                                <i class="fas fa-user-circle mr-2"></i>
+                                {{ user.username }}
+                            </button>
+                            <!-- Dropdown -->
+                            <div class="absolute top-full right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-200 ease-out origin-top-right">
+                                <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-cog mr-2"></i>Account Settings
+                                    </a>
+                                    <a href="#", onclick="logoutuser()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>Log out
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% else %}
-                        <div class="space-x-4">
-                            <a href="{% url 'core:login' %}" class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md">Login</a>
-                        </div>
+                        <a href="{% url 'core:login' %}" class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md">
+                            Login
+                        </a>
                     {% endif %}
                 </div>
             </div>
         </div>
-        
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20">
         {% block content %}
         {% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white mt-8 py-6">
+    <footer class="bg-white mt-8 py-6 shadow-inner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p class="text-gray-600">© {% now "Y" %} Stunting Project. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- Logout Script -->
+    <script>
+        function logoutuser() {
+            fetch("{% url 'core:logout' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: ""
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "{% url 'core:register' %}";
+                } else {
+                    alert("Logout failed! Please try again.");
+                }
+            }).catch(error => {
+                console.error("Error:", error);
+                alert("Logout failed! Please try again.");
+            });
+        }
+    </script>
+
     {% block extra_scripts %}{% endblock %}
-    
 </body>
 </html>

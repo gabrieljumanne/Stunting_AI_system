@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{%load static%}
+
+{%block extra_css%}<link rel="stylesheet" href="{% static 'ai_assitance/chat.css' %}">{%endblock%}
+
+
+{% block content %}
+  <div class="chat-container">
+    <div class="chat-header">
+        <h2>Chatbot</h2>
+        <p>Powered by Meta-Llama 3.1</p>
+    </div>
+    
+    <div class="chat-messages">
+        <!-- Messages will go here -->
+        <div class="message">
+            <div class="avatar">
+                <!-- AI icon -->
+            </div>
+            <div class="message-content">
+                <span class="message-sender">AI</span>
+                Hi, how can I help you today?
+            </div>
+        </div>
+    </div>
+    
+    <div class="chat-input">
+        <form>
+            <input type="text" placeholder="Type your message">
+            <button class="send-button">Send</button>
+        </form>
+    </div>
+  </div>
+
+
+{% endblock content %}

@@ -25,6 +25,6 @@ urlpatterns = [
     path('measurement/', include('measurement.urls')),
     path('dashbord/', include('dashbord.urls')),
     # path('articles/', include('articles.urls')),
-    # path('ai_assitance/', include('ai_assitance.urls')),
+    path('ai_assitance/', include('ai_assitance.urls')),
    
 ]

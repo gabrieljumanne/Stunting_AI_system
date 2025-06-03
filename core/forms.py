@@ -1,6 +1,6 @@
 from django import forms 
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.utils.translation import gettext_lazy as _
 from .models import CustomUser, ParentProfile, HealthWorkerProfile
 
@@ -218,3 +218,77 @@ class HealthWorkerProfileEditForm(BaseProfileEditForm):
         hw_profile.health_facility = self.cleaned_data['health_facility']
         hw_profile.save()
         return user
+    
+    
+class PasswordEditForm(PasswordChangeForm):
+    """custom password edit form"""
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(user, *args, **kwargs)
+        
+        #style all the fields 
+        for field in self.fields.values():
+            field.widget.attrs.update({'class':'form-control rounded-md sha'})
+            
+        #placeholder update in  the form widget
+        self.fields['old_password'].widget.attrs.update({
+           'placeholder':'Enter your current password',
+           'autocomplete':'current-password' 
+        })
+        
+        self.fields['new_password1'].widget.attrs.update({
+            'placeholder': 'Enter new password',
+            'autocomplete':'new_password1',
+        })
+        
+        self.fields['new_password2'].widget.attrs.update({
+            'placeholder':"Confirm your new password",
+            'autocomplete': 'new_password2', 
+        })
+        
+        #auto-focus in first field 
+        self.fields['old_password'].widget.attrs['autofocus']=True
+        
+        #label the form fields 
+        self.fields['old_password'].label = "Current Password"
+        self.fields['new_password1'].label = "New password"
+        self.fields["new_password2"].label = "Verify Password" 
+        
+    def clean_new_password1(self):
+        #custom passwsord streagh rule 
+        password = self.cleaned_data.get("new_password1")
+        
+        if len(password) < 8:
+            raise forms.ValidationError("Password must be atlest 8 characters")
+        
+        if not any(char.isdigit() for char in password):
+            raise forms.ValidationError("Pasword must contain atlest one number")
+        
+        return password
+    
+    def clean_new_password2(self):
+        # parent class validation 
+        password_1 = self.cleaned_data.get("new_password1")
+        password_2 = self.cleaned_data.get("new_password2")
+        
+        if password_1 and password_2 and password_1 != password_2:
+            raise forms.ValidationError("Two password fields they did not match")
+        
+        if self.user.username.lower() in password_2.lower():
+            raise forms.ValidationError("Password can not be your username")
+        
+        common_words = ['stunting', 'health', 'child']
+        for word in common_words:
+            if word in password_2.lower():
+                raise forms.ValidationError(f"password can not contain common word like {word}")
+            
+        # cheching sequentiala characters 
+        for i in range(len(password_2)-2):
+            if ord(password_2[i]) + 1 == ord(password_2[i+1]) and ord(password_2[i+1]) + 1 == ord(password_2[i+2]):
+                raise forms.ValidationError("password can not contain sequential characters like '123' or 'abc' ")
+            
+        
+        #checking for atlest one upper case 
+        if not any(char.isupper() for char in password_2):
+            raise forms.ValidationError("Password must contain atlest one upper case")
+        
+        return password_2

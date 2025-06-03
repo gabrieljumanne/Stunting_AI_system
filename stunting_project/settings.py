@@ -157,3 +157,29 @@ AUTH_USER_MODEL = 'core.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # default authentication backend
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHETICATION_CLASSES':[
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ], 
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+        
+        
+}
+
+#Open-router large language modal . 
+
+OPEN_ROUTER_KEY = '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'
+
+
+# In stunting_project/settings.py
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+#         'LOCATION': '/home/i-castorosa-098/Desktop/stunting_project/model_cache',
+#         'TIMEOUT': None, 
+#     }
+# }

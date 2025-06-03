@@ -1,17 +1,421 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="text-center py-16">
-        <h1 class="text-4xl font-bold mb-6 text-gray-800">Choose the profile !</h1>
-        <p class="text-xl text-gray-600 mb-8">Tell us who are you ?. To unlock full features and personalized experience!</p>
-        <div class="space-x-4">
-            <a href="{% url 'core:parent_registration' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
-                Parent
-            </a>
-            <a href="{% url 'core:health_worker_registration' %}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition">
-                Health Worker
-            </a>
-            
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 flex items-center justify-center px-4 py-12">
+    <div class="max-w-6xl mx-auto w-full">
+        <!-- Header Section -->
+        <div class="text-center mb-16">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl mb-6 shadow-lg">
+                <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                </svg>
+            </div>
+            <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Choose Your Profile
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
+                Tell us who you are to unlock personalized features and create the perfect experience tailored just for you!
+            </p>
+            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span>Secure • Fast • Personalized</span>
+            </div>
+        </div>
+
+        <!-- Profile Cards -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <!-- Parent Card -->
+            <div class="group relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 via-teal-500 to-cyan-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                <a href="{% url 'core:parent_registration' %}" 
+                   class="relative block bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:scale-[1.02] border border-white/20">
+                    
+                    <!-- Card Header -->
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Parent</h2>
+                        <p class="text-gray-600 text-sm">Join As A Caring Parent</p>
+                    </div>
+
+                    <!-- Features List -->
+                    <div class="space-y-3 mb-8">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Track your child's health milestones</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Measure and track child stunting</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Access personalized health insights</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Connect with healthcare providers</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-blue font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105">
+                            <span>Get Started as Parent</span>
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Popular Badge -->
+                    <div class="absolute -top-3 -right-3">
+                        <div class="bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                            Popular
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Health Worker Card -->
+            <div class="group relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                <a href="{% url 'core:health_worker_registration' %}" 
+                   class="relative block bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transform transition-all duration-500 hover:scale-[1.02] border border-white/20">
+                    
+                    <!-- Card Header -->
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Health Worker</h2>
+                        <p class="text-gray-600 text-sm">Join as a healthcare professional</p>
+                    </div>
+
+                    <!-- Features List -->
+                    <div class="space-y-3 mb-8">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Manage patient records efficiently</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Access comprehensive health data</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Streamline appointment scheduling</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            <span class="text-gray-700 text-sm">Professional dashboard & tools</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="text-center">
+                        <div class="inline-flex items-center justify-center w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105">
+                            <span>Get Started as Health Worker</span>
+                            <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Professional Badge -->
+                    <div class="absolute -top-3 -right-3">
+                        <div class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                            Professional
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Additional Info Section -->
+        <div class="text-center mt-16">
+            <div class="bg-white/60 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto border border-white/20 shadow-lg">
+                <div class="flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-800">Need Help Choosing?</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-6">
+                    Don't worry! You can always update your profile later. Both options give you access to our comprehensive health management platform.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 text-sm">
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        Free to join
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        Easy setup
+                    </div>
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-4 h-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                        24/7 support
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-circle floating-circle-1"></div>
+            <div class="floating-circle floating-circle-2"></div>
+            <div class="floating-circle floating-circle-3"></div>
         </div>
     </div>
-{% endblock%}
+</div>
+
+<!-- Enhanced Styles -->
+<style>
+    /* Floating background elements */
+    .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .floating-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-circle-1 {
+        width: 200px;
+        height: 200px;
+        top: 10%;
+        left: 10%;
+        animation-delay: -2s;
+    }
+
+    .floating-circle-2 {
+        width: 300px;
+        height: 300px;
+        top: 60%;
+        right: 10%;
+        animation-delay: -4s;
+    }
+
+    .floating-circle-3 {
+        width: 150px;
+        height: 150px;
+        bottom: 20%;
+        left: 60%;
+        animation-delay: -1s;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+        }
+        33% {
+            transform: translateY(-30px) rotate(120deg);
+        }
+        66% {
+            transform: translateY(-60px) rotate(240deg);
+        }
+    }
+
+    /* Card hover effects */
+    .group:hover .floating-circle {
+        animation-play-state: paused;
+    }
+
+    /* Enhanced gradient text */
+    .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Pulse animation for badges */
+    .group:hover .absolute div {
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* Enhanced card shadows */
+    .group:hover {
+        filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.15));
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .floating-circle {
+            display: none;
+        }
+        
+        .grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        
+        .text-5xl {
+            font-size: 2.5rem;
+        }
+        
+        .text-xl {
+            font-size: 1.125rem;
+        }
+    }
+
+    /* Smooth backdrop blur fallback */
+    @supports not (backdrop-filter: blur(12px)) {
+        .backdrop-blur-sm {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+    }
+
+    /* Enhanced button hover states */
+    .group:hover .inline-flex {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Stagger animation for feature list items */
+    .space-y-3 > div {
+        opacity: 0;
+        animation: slideInLeft 0.6s ease-out forwards;
+    }
+
+    .space-y-3 > div:nth-child(1) { animation-delay: 0.1s; }
+    .space-y-3 > div:nth-child(2) { animation-delay: 0.2s; }
+    .space-y-3 > div:nth-child(3) { animation-delay: 0.3s; }
+    .space-y-3 > div:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes slideInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    /* Page load animation */
+    .max-w-6xl {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<!-- Enhanced JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add intersection observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.group').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add click analytics (placeholder)
+        document.querySelectorAll('a[href*="registration"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const profileType = this.href.includes('parent') ? 'parent' : 'health_worker';
+                console.log(`Profile selected: ${profileType}`);
+                
+                // Add subtle click feedback
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+            });
+        });
+
+        // Parallax effect for floating elements
+        let ticking = false;
+        
+        function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.floating-circle');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = (index + 1) * 0.5;
+                const yPos = -(scrolled * speed);
+                element.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.1}deg)`;
+            });
+            
+            ticking = false;
+        }
+
+        function requestParallaxUpdate() {
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('scroll', requestParallaxUpdate);
+
+        // Add hover sound effect (optional)
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // You can add a subtle sound effect here
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    });
+</script>
+{% endblock %}

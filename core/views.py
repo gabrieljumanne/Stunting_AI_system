@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, UpdateView
 from django.views.generic.edit import CreateView 
 from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.utils.decorators import method_decorator
@@ -14,7 +14,7 @@ from django.core.exceptions import PermissionDenied
 from django.views.decorators.debug import sensitive_post_parameters, sensitive_variables
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
-from .forms import ParentRegistrationForm, HealthWorkerRegistrationForm, CustomAuthenticationForm, ParentprofileEditForm, HealthWorkerProfileEditForm
+from .forms import ParentRegistrationForm, HealthWorkerRegistrationForm, CustomAuthenticationForm, ParentprofileEditForm, HealthWorkerProfileEditForm, PasswordEditForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -255,3 +255,47 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
             
         messages.error(self.request, "Please correct the errors below")
         return super().form_invalid(form)
+    
+
+class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'core/password_change.html'
+    form_class = PasswordEditForm
+    success_url = reverse_lazy('core:login')
+    
+    def form_valid(self, form):
+        try :
+            messages.success(self.request, "Password changed successfully")
+            response = super().form_valid(form)
+            
+            #AJAX HANDLING
+            
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': True,
+                    'message': "Your passowrd has changed successfully"
+                })
+            
+            return response
+        except Exception as e:
+            if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                return JsonResponse({
+                    'success': False,
+                    'message': f"Error updating password: {str(e)}"
+                }, status=500)
+            raise  # Re-raise exception
+        
+    def form_invalid(self, form):
+        """Handle form validation errors"""
+        print(f"Form errors: {form.errors}")  # Add this for debugging
+
+        # If AJAX request, return JSON with errors
+        if self.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'message': "Please correct the errors below",
+                'errors': form.errors
+            }, status=400)
+            
+        messages.error(self.request, "Please correct the errors below")
+        return super().form_invalid(form)
+    

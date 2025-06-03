@@ -4,3 +4,9 @@ django-crispy-forms
 crispy-tailwind
 ChatterBot
 gunicorn
+
+
+
+transformers==4.50.3  # Hugging Face Transformers for DialoGPT and MarianMT
+torch==2.4.1  # PyTorch, required by Transformers (CPU version for your setup)
+langdetect==1.0.9  # For detecting the user's input language

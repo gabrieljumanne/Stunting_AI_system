@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chatbot</title>
+  
+</head>
+<body>
+  <div id="chat-container">
+    <div id="chat-display"></div>
+    <div id="chat-input">
+      <input type="text" id="message-input" placeholder="Type a message...">
+      <button id="send-button">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chatDisplay = document.getElementById('chat-display');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+
+    // Function to add a message to the chat display
+    function addMessage(text, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message');
+      messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+      messageDiv.textContent = text;
+      chatDisplay.appendChild(messageDiv);
+      chatDisplay.scrollTop = chatDisplay.scrollHeight;
+    }
+
+    // Event listener for send button
+    sendButton.addEventListener('click', () => {
+      const messageText = messageInput.value.trim();
+      if (messageText) {
+        addMessage(messageText, true);
+        // Simulate bot response (replace with actual backend call)
+        setTimeout(() => {
+          addMessage('This is a sample response from the chatbot.');
+        }, 1000);
+        messageInput.value = '';
+      }
+    });
+
+    // Allow sending message with Enter key
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendButton.click();
+      }
+    });
+  </script>
+</body>
+</html>

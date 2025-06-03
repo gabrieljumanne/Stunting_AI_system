@@ -5,6 +5,7 @@ from .views import( UserLogInView,
                    HealthWorkerRegistrationView, 
                    UserRegistrationView,
                    ProfileEditView,
+                   CustomPasswordChangeView
                    )
 
 app_name = "core"
@@ -16,6 +17,8 @@ urlpatterns = [
     path('login/', UserLogInView.as_view(),name='login' ),
     path('logout/', UserLogOutView.as_view(),name='logout' ),
     path('profile/edit/', ProfileEditView.as_view(),name='profile_edit' ),
+    path('password/change/',CustomPasswordChangeView.as_view(),name='password_change' ),
+
 
     
 ]

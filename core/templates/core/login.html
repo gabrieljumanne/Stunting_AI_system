@@ -1,26 +1,206 @@
 {% extends "base.html" %}
-
 {% load crispy_forms_tags %}
 
-
 {% block content %}
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md mx-4">
-        <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h1>
-        <form method="post" class="space-y-4" autocomplete="off">
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div class="bg-white/90 backdrop-blur-sm p-10 rounded-3xl shadow-2xl w-full max-w-md mx-4 border border-white/20">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h1>
+            <p class="text-gray-500 text-sm">Please sign in to your account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form method="post" class="space-y-6" autocomplete="off">
             {% csrf_token %}
-            <div class="crispy-tailwind">
-                {{ form|crispy }}
+            
+            <!-- Username Field -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" 
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                    <div class="relative">
+                        {{ form.username }}
+                    </div>
+                </div>
             </div>
 
-            <div class="flex flex-col gap-4 mt-6">
-                <button type="submit" class="w-full bg-blue-500 text-white py-3 px-4 rounded-md hover:bg-blue-600 transition duration-200">
-                    Login
-                </button>
-                <div class="flex justify-between text-sm">
-                    <a href="#" class="text-blue-500 hover:text-blue-700">Forgot Password?</a>
-                    <a href="{% url 'core:register' %}" class="text-blue-500 hover:text-blue-700">Create Account</a>
+            <!-- Password Field -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200" 
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                        </svg>
+                    </div>
+                    <div class="relative">
+                        {{ form.password }}
+                    </div>
                 </div>
+            </div>
+
+            <!-- Remember Me -->
+            <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center">
+                    <div class="relative">
+                        {{ form.remember_me }}
+                    </div>
+                    <label class="ml-3 text-sm font-medium text-gray-600 select-none cursor-pointer">
+                        Remember me
+                    </label>
+                </div>
+                <a href="#" class="text-sm font-medium text-blue-600 hover:text-blue-500 transition-colors duration-200">
+                    Forgot password?
+                </a>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8">
+                <button type="submit" 
+                        class="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98]">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <svg class="h-5 w-5 text-blue-300 group-hover:text-blue-200 transition-colors duration-200" 
+                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                    </span>
+                    Sign In
+                </button>
+            </div>
+
+            <!-- Divider -->
+            <div class="mt-8">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500 font-medium">New to our platform?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Link -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'core:register' %}" 
+                   class="inline-flex items-center justify-center w-full py-3 px-4 border-2 border-gray-200 rounded-xl text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-md">
+                    <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                    </svg>
+                    Create New Account
+                </a>
             </div>
         </form>
     </div>
-{% endblock  %}
+</div>
+
+<!-- Custom Styles for Form Fields -->
+<style>
+    /* Enhanced form field styling */
+    .form-control, input[type="text"], input[type="password"], input[type="email"] {
+        @apply w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 bg-white/50 backdrop-blur-sm;
+        @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+        @apply transition-all duration-200 hover:border-gray-300 hover:shadow-sm;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Checkbox styling */
+    input[type="checkbox"] {
+        @apply w-4 h-4 text-blue-600 bg-white border-2 border-gray-300 rounded focus:ring-blue-500 focus:ring-2;
+        @apply transition-all duration-200 hover:border-blue-400 cursor-pointer;
+    }
+    
+    input[type="checkbox"]:checked {
+        @apply bg-blue-600 border-blue-600;
+    }
+    
+    /* Remove any default crispy forms styling conflicts */
+    .form-group {
+        margin-bottom: 0 !important;
+    }
+    
+    .form-group label {
+        display: none !important;
+    }
+    
+    /* Error styling */
+    .is-invalid {
+        @apply border-red-300 focus:ring-red-500 focus:border-red-500;
+    }
+    
+    .invalid-feedback {
+        @apply text-red-600 text-sm mt-1 block;
+    }
+    
+    /* Success styling */
+    .is-valid {
+        @apply border-green-300 focus:ring-green-500 focus:border-green-500;
+    }
+    
+    /* Loading state for button */
+    .btn-loading {
+        @apply opacity-75 cursor-not-allowed;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .backdrop-blur-sm {
+            backdrop-filter: none;
+        }
+        
+        .bg-white\/90 {
+            background-color: white;
+        }
+    }
+</style>
+
+<!-- Optional JavaScript for enhanced UX -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add loading state to submit button
+        const form = document.querySelector('form');
+        const submitBtn = document.querySelector('button[type="submit"]');
+        
+        if (form && submitBtn) {
+            form.addEventListener('submit', function() {
+                submitBtn.classList.add('btn-loading');
+                submitBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Signing In...
+                `;
+            });
+        }
+        
+        // Add floating label effect (optional)
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
+        inputs.forEach(input => {
+            // Add placeholder text
+            if (input.name === 'username') {
+                input.placeholder = 'Enter your username';
+            } else if (input.type === 'password') {
+                input.placeholder = 'Enter your password';
+            }
+        });
+    });
+</script>
+{% endblock %}
