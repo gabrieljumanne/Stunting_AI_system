@@ -2,13 +2,16 @@ from django.views.generic import TemplateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 from django.conf import settings 
 import requests
+import json
 
 
 # testmy modals 
 
 class ChatbotApiView(APIView):
+    permission_classes = [AllowAny]  # Allow testing without authentication
 
     def post(self, request):
         user_prompt = request.data.get('message')
@@ -17,28 +20,60 @@ class ChatbotApiView(APIView):
             return Response({'error':'No message provided, please provide the message !'}, status=status.HTTP_400_BAD_REQUEST)
         
         headers = {
-            'Content-type':'application/json',
-            'Authorization':f'Bearer {settings.OPEN_ROUTER_KEY}'
-            
+            "Authorization": f"Bearer {settings.OPEN_ROUTER_KEY}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "http://localhost:8000",  
+            "X-Title": "Stunting Project AI Assistant",  
         }
         
-        data = {
-            'model':'deepseek/deepseek-chat-v3-0324:free', 
-            'messages':[
-                {'role':'system', 'content':'You are helpfull assistance specializing in child health and stunting prevention and blanced food preparation'}, 
-                {'role':'user', 'content':user_prompt}
+        # Option 1: Remove system message for gemma model
+        payload = {
+            "model": "google/gemma-3n-e4b-it:free",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": f"JE TUNAWEZA KUONGELEA UDUMAVU KWA WATOTO NA LISHE KWA UJUMLA (CHILD STUNTING AND NUTRITION),  {user_prompt}"
+                }
             ]
         }
         
+        # Option 2: Use a different model that supports system messages
+        # payload = {
+        #     "model": "meta-llama/llama-3.2-3b-instruct:free",
+        #     "messages": [
+        #         {
+        #             "role": "system", 
+        #             "content": "You are a helpful assistant specializing in child health and stunting prevention and balanced food preparation"
+        #         },
+        #         {
+        #             "role": "user",
+        #             "content": user_prompt
+        #         }
+        #     ]
+        # }
+        
         try:
-            #try-making the api-request to the open-router server 
-            response = requests.post('https://openrouter.ai/api/v1/chat/completions', headers=headers, json=data)
-            response.raise_for_status()
+            response = requests.post(
+                url="https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                data=json.dumps(payload)
+            )
+            
+            # Better error handling
+            if response.status_code != 200:
+                return Response({
+                    'error': f'API request failed: {response.status_code}',
+                    'detail': response.text
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
             result = response.json()
             assistance_message = result['choices'][0]['message']['content'] 
-            return Response({'response':assistance_message}, status=status.HTTP_200_OK)
+            return Response({'response': assistance_message}, status=status.HTTP_200_OK)
+            
         except requests.exceptions.RequestException as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)       
+            return Response({'error': f'API request failed: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except KeyError as e:
+            return Response({'error': f'Unexpected API response format: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)       
         
         
   
