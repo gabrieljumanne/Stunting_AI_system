@@ -36,7 +36,9 @@
                 <!-- Form Header -->
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
-                        <i class="fas fa-ruler-combined text-2xl text-white"></i>
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
                     </div>
                     <h2 class="text-2xl font-bold text-gray-800 mb-2">Growth Measurements</h2>
                     <p class="text-gray-600">Enter accurate measurements for the best results</p>
@@ -89,14 +91,14 @@
                         <div class="group/field">
                             <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                                 <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8l4-4 4 4-4 4zm0 0l6 0M7 20v-4" />
                                 </svg>
                                 Height (cm)
                             </label>
                             <div class="relative">
                                 {{ form.height }}
                                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-400 text-sm">cm</span>
+                                    <span class="text-gray-400 text-sm font-medium">cm</span>
                                 </div>
                             </div>
                         </div>
@@ -104,4 +106,321 @@
                         <!-- Weight Field -->
                         <div class="group/field">
                             <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                                <svg class="w-4
+                                <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                Weight (kg)
+                            </label>
+                            <div class="relative">
+                                {{ form.weight }}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-400 text-sm font-medium">kg</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Date Field (if exists) -->
+                        {% if form.date %}
+                        <div class="group/field">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                Measurement Date
+                            </label>
+                            <div class="relative">
+                                {{ form.date }}
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400 group-focus-within/field:text-emerald-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col gap-4 mt-8">
+                        <button type="submit" 
+                                class="group/btn w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-blue py-4 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 mr-3 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                            Record Measurements
+                            <svg class="w-5 h-5 ml-3 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </button>
+
+                        <a href="{% url 'dashbord:parent_dashbord' %}" 
+                           class="group/back w-full text-center py-3 px-6 border-2 border-gray-200 text-gray-600 rounded-2xl hover:border-gray-300 hover:bg-gray-50 transition-all duration-300 font-medium flex items-center justify-center">
+                            <svg class="w-5 h-5 mr-2 group-hover/back:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                            </svg>
+                            Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Additional Help Section -->
+                <div class="mt-8 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-semibold text-amber-800">Need Help?</h3>
+                            <p class="text-sm text-amber-700 mt-1">
+                                Accurate measurements are crucial for proper growth assessment. If you're unsure about how to measure correctly, consult with a healthcare professional.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Styles -->
+<style>
+    /* Import form styling from registration page */
+    .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .floating-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(16, 185, 129, 0.08), rgba(20, 184, 166, 0.08));
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .floating-circle-1 {
+        width: 250px;
+        height: 250px;
+        top: 10%;
+        left: 10%;
+        animation-delay: -2s;
+    }
+
+    .floating-circle-2 {
+        width: 180px;
+        height: 180px;
+        top: 60%;
+        right: 15%;
+        animation-delay: -4s;
+    }
+
+    .floating-circle-3 {
+        width: 200px;
+        height: 200px;
+        bottom: 15%;
+        left: 60%;
+        animation-delay: -1s;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px) translateX(0px) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-20px) translateX(15px) rotate(90deg);
+        }
+        50% {
+            transform: translateY(-40px) translateX(-10px) rotate(180deg);
+        }
+        75% {
+            transform: translateY(-10px) translateX(-20px) rotate(270deg);
+        }
+    }
+
+    /* Enhanced gradient text */
+    .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom animations */
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.8; }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Enhanced form styling */
+    input, select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        transform: translateY(-1px);
+    }
+
+    input:hover, select:hover {
+        border-color: #9ca3af;
+    }
+
+    /* Enhanced button interactions */
+    .group\/btn:hover {
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .group\/back:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Page load animation */
+    .max-w-2xl {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .floating-circle {
+            display: none;
+        }
+        
+        .text-4xl {
+            font-size: 2rem;
+        }
+        
+        .text-xl {
+            font-size: 1.125rem;
+        }
+    }
+
+    /* Smooth backdrop blur fallback */
+    @supports not (backdrop-filter: blur(12px)) {
+        .backdrop-blur-sm {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+    }
+
+    /* Form validation styling */
+    .errorlist {
+        color: #ef4444;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .errorlist li {
+        list-style: none;
+    }
+
+    /* Field focus states */
+    .group\/field:focus-within label {
+        color: #10b981;
+    }
+
+    /* Loading button state */
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+    }
+</style>
+
+<!-- Enhanced JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add form validation feedback
+        const form = document.querySelector('form');
+        const submitButton = form.querySelector('button[type="submit"]');
+        
+        form.addEventListener('submit', function(e) {
+            // Add loading state
+            const originalText = submitButton.innerHTML;
+            submitButton.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <svg class="animate-spin -ml-1 mr-3 h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                </div>
+            `;
+            submitButton.disabled = true;
+        });
+
+        // Add real-time validation
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.style.borderColor = '#ef4444';
+                    this.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                } else {
+                    this.style.borderColor = '#10b981';
+                    this.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+                }
+            });
+
+            input.addEventListener('input', function() {
+                if (this.style.borderColor === 'rgb(239, 68, 68)') {
+                    this.style.borderColor = '#e5e7eb';
+                    this.style.boxShadow = 'none';
+                }
+            });
+        });
+
+        // Number input validation for height and weight
+        const heightInput = document.querySelector('input[name*="height"]');
+        const weightInput = document.querySelector('input[name*="weight"]');
+        
+        if (heightInput) {
+            heightInput.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                if (value && (value < 30 || value > 250)) {
+                    this.style.borderColor = '#f59e0b';
+                    this.style.boxShadow = '0 0 0 3px rgba(245, 158, 11, 0.1)';
+                }
+            });
+        }
+
+        if (weightInput) {
+            weightInput.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                if (value && (value < 1 || value > 200)) {
+                    this.style.borderColor = '#f59e0b';
+                    this.style.boxShadow = '0 0 0 3px rgba(245, 158, 11, 0.1)';
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock content %}

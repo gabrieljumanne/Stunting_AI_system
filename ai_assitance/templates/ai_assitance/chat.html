@@ -1,37 +1,800 @@
 {% extends "base.html" %}
 
-{%load static%}
+{% load static %}
 
-{%block extra_css%}<link rel="stylesheet" href="{% static 'ai_assitance/chat.css' %}">{%endblock%}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'ai_assitance/chat.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
 {% block content %}
-  <div class="chat-container">
-    <div class="chat-header">
-        <h2>Chatbot</h2>
-        <p>Powered by Meta-Llama 3.1</p>
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+    <!-- Floating Elements -->
+    <div class="floating-elements">
+        <div class="floating-circle floating-circle-1"></div>
+        <div class="floating-circle floating-circle-2"></div>
+        <div class="floating-circle floating-circle-3"></div>
+        <div class="floating-circle floating-circle-4"></div>
     </div>
-    
-    <div class="chat-messages">
-        <!-- Messages will go here -->
-        <div class="message">
-            <div class="avatar">
-                <!-- AI icon -->
+
+    <!-- Main Chat Container -->
+    <div class="relative z-10 flex flex-col h-screen">
+        <!-- Header Section -->
+        <div class="flex-shrink-0 pt-6 pb-4">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Navigation & Header -->
+                <div class="group relative mb-6">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                    <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-white/20">
+                        <div class="flex items-center justify-between">
+                            <!-- Back Button -->
+                            <a href="{% url 'dashbord:parent_dashbord' %}" 
+                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 group/back">
+                                <svg class="w-5 h-5 mr-2 group-hover/back:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                                <span>Back to Dashboard</span>
+                            </a>
+
+                            <!-- Chat Header Info -->
+                            <div class="text-center flex-1 mx-8">
+                                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl mb-3 shadow-xl animate-pulse-slow">
+                                    <i class="fas fa-robot text-2xl text-white"></i>
+                                </div>
+                                <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                    AI Chat Assistant
+                                </h1>
+                                <p class="text-sm text-gray-600 flex items-center justify-center mt-1">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
+                                    Powered by Meta-Llama 3.1
+                                </p>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex items-center space-x-3">
+                                <button id="clearChatBtn" 
+                                        class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-red font-medium rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                                    <svg class="w-4 h-4 mr-2" fill="red" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Clear
+                                </button>
+                                
+                                <button id="exportChatBtn" 
+                                        class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-blue-800 font-medium rounded-lg hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+                                    <svg class="w-4 h-4 mr-2" fill="blue" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="message-content">
-                <span class="message-sender">AI</span>
-                Hi, how can I help you today?
+        </div>
+
+        <!-- Chat Messages Area -->
+        <div class="flex-1 overflow-hidden px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto h-full">
+                <div class="group relative h-full">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 via-cyan-500 to-teal-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-20 transition-all duration-500"></div>
+                    <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 h-full flex flex-col">
+                        
+                        <!-- Messages Container -->
+                        <div id="chatMessages" class="flex-1 overflow-y-auto p-6 space-y-4 scroll-smooth">
+                            <!-- Welcome Message -->
+                            <div class="message-item ai-message animate-slideInUp">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-robot text-white text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl rounded-tl-sm p-4 border border-purple-100 shadow-sm">
+                                            <div class="flex items-center mb-2">
+                                                <span class="text-sm font-semibold text-purple-700">AI Assistant</span>
+                                                <span class="text-xs text-gray-500 ml-2">now</span>
+                                            </div>
+                                            <p class="text-gray-700 leading-relaxed">
+                                                Hello! 👋 I'm your AI assistant, here to help you with questions about child nutrition, health, and development. 
+                                                What would you like to know today?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sample User Message -->
+                            <div class="message-item user-message animate-slideInUp" style="animation-delay: 0.2s;">
+                                <div class="flex items-start space-x-4 justify-end">
+                                    <div class="flex-1 max-w-xs sm:max-w-md">
+                                        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl rounded-tr-sm p-4 shadow-lg">
+                                            <div class="flex items-center justify-end mb-2">
+                                                <span class="text-xs text-indigo-100 mr-2">2 minutes ago</span>
+                                                <span class="text-sm font-semibold text-white">You</span>
+                                            </div>
+                                            <p class="text-white leading-relaxed">
+                                                What are some healthy meal ideas for a 3-year-old?
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-user text-white text-sm"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sample AI Response -->
+                            <div class="message-item ai-message animate-slideInUp" style="animation-delay: 0.4s;">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                                            <i class="fas fa-robot text-white text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl rounded-tl-sm p-4 border border-emerald-100 shadow-sm">
+                                            <div class="flex items-center mb-2">
+                                                <span class="text-sm font-semibold text-emerald-700">AI Assistant</span>
+                                                <span class="text-xs text-gray-500 ml-2">1 minute ago</span>
+                                            </div>
+                                            <div class="text-gray-700 leading-relaxed space-y-3">
+                                                <p>Here are some nutritious meal ideas for your 3-year-old:</p>
+                                                <div class="bg-white/70 rounded-xl p-3 border border-emerald-200">
+                                                    <p class="font-medium text-emerald-800 mb-2">🍽️ Balanced Meals:</p>
+                                                    <ul class="text-sm space-y-1 text-gray-600">
+                                                        <li>• Mini whole wheat pasta with vegetables</li>
+                                                        <li>• Grilled chicken strips with sweet potato</li>
+                                                        <li>• Scrambled eggs with whole grain toast</li>
+                                                    </ul>
+                                                </div>
+                                                <p class="text-sm text-emerald-600">Would you like more specific recipes or information about portion sizes?</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Typing Indicator (Hidden by default) -->
+                        <div id="typingIndicator" class="px-6 pb-2 hidden">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-md">
+                                        <i class="fas fa-robot text-white text-xs"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="bg-gray-100 rounded-2xl rounded-tl-sm p-3 inline-block">
+                                        <div class="flex space-x-1">
+                                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                                            <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="flex-shrink-0 p-4 sm:px-6 lg:px-8 pb-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="group relative">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 via-teal-500 to-green-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                    <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-4">
+                        <form id="chatForm" class="flex items-end space-x-4">
+                            <div class="flex-1">
+                                <div class="relative">
+                                    <textarea 
+                                        id="messageInput" 
+                                        rows="1"
+                                        placeholder="Type your message about child health, nutrition, or development..."
+                                        class="w-full px-4 py-3 pr-12 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:border-purple-500 focus:ring-0 resize-none text-gray-700 placeholder-gray-500 transition-all duration-300 focus:shadow-md"
+                                        style="min-height: 48px; max-height: 120px;"
+                                    ></textarea>
+                                    
+                                    <!-- Character Count -->
+                                    <div class="absolute bottom-2 right-12 text-xs text-gray-400">
+                                        <span id="charCount">0</span>/500
+                                    </div>
+                                    
+                                    <!-- Emoji Button -->
+                                    <button type="button" id="emojiBtn" class="absolute bottom-3 right-3 p-1 text-gray-400 hover:text-purple-500 transition-colors">
+                                        <i class="fas fa-smile text-lg"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Quick Actions -->
+                                <div class="flex items-center justify-between mt-3">
+                                    <div class="flex space-x-2">
+                                        <button type="button" class="quick-action-btn" data-message="Tell me about healthy foods for toddlers">
+                                            <span class="text-xs">🥗 Nutrition</span>
+                                        </button>
+                                        <button type="button" class="quick-action-btn" data-message="What are normal growth milestones?">
+                                            <span class="text-xs">📈 Growth</span>
+                                        </button>
+                                        <button type="button" class="quick-action-btn" data-message="Help with sleep schedules">
+                                            <span class="text-xs">😴 Sleep</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="flex items-center space-x-2 text-xs text-gray-500">
+                                        <i class="fas fa-shield-alt"></i>
+                                        <span>Secure & Private</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Send Button -->
+                            <button 
+                                type="submit" 
+                                id="sendBtn"
+                                class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-2xl shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                                disabled
+                            >
+                                <i id="sendIcon" class="fas fa-paper-plane text-lg"></i>
+                                
+                                <!-- Loading Spinner (Hidden by default) -->
+                                <i id="loadingIcon" class="fas fa-spinner fa-spin text-lg hidden"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div class="chat-input">
-        <form>
-            <input type="text" placeholder="Type your message">
-            <button class="send-button">Send</button>
-        </form>
+
+    <!-- Success/Error Notifications -->
+    <div id="notification" class="fixed top-4 right-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg border border-gray-200 p-4 max-w-sm">
+            <div class="flex items-center">
+                <div id="notificationIcon" class="flex-shrink-0 mr-3">
+                    <!-- Icon will be inserted here -->
+                </div>
+                <div>
+                    <p id="notificationTitle" class="font-semibold text-gray-900"></p>
+                    <p id="notificationMessage" class="text-sm text-gray-600"></p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
+<!-- Enhanced Styles -->
+<style>
+    /* Ensure icons are loaded properly */
+    .fas, .far, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands";
+        font-weight: 900;
+    }
 
-{% endblock content %}
+    /* Floating background elements */
+    .floating-elements {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 0;
+    }
+
+    .floating-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(45deg, rgba(99, 102, 241, 0.05), rgba(168, 85, 247, 0.05));
+        animation: float 12s ease-in-out infinite;
+    }
+
+    .floating-circle-1 {
+        width: 250px;
+        height: 250px;
+        top: 10%;
+        left: 5%;
+        animation-delay: -2s;
+    }
+
+    .floating-circle-2 {
+        width: 180px;
+        height: 180px;
+        top: 60%;
+        right: 10%;
+        animation-delay: -4s;
+    }
+
+    .floating-circle-3 {
+        width: 200px;
+        height: 200px;
+        bottom: 20%;
+        left: 70%;
+        animation-delay: -1s;
+    }
+
+    .floating-circle-4 {
+        width: 150px;
+        height: 150px;
+        top: 30%;
+        left: 50%;
+        animation-delay: -6s;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px) translateX(0px) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-20px) translateX(15px) rotate(90deg);
+        }
+        50% {
+            transform: translateY(-40px) translateX(-10px) rotate(180deg);
+        }
+        75% {
+            transform: translateY(-10px) translateX(-20px) rotate(270deg);
+        }
+    }
+
+    /* Enhanced gradient text */
+    .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom scrollbar */
+    #chatMessages::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #chatMessages::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+
+    #chatMessages::-webkit-scrollbar-thumb {
+        background: linear-gradient(45deg, #6366f1, #8b5cf6);
+        border-radius: 3px;
+    }
+
+    #chatMessages::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(45deg, #4f46e5, #7c3aed);
+    }
+
+    /* Message animations */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-slideInUp {
+        animation: slideInUp 0.5s ease-out forwards;
+    }
+
+    /* Custom animations */
+    @keyframes pulse-slow {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* Quick action buttons */
+    .quick-action-btn {
+        padding: 0.5rem 0.75rem;
+        background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+        border: 1px solid rgba(168, 85, 247, 0.2);
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        font-size: 0.75rem;
+        color: #6b7280;
+        cursor: pointer;
+    }
+
+    .quick-action-btn:hover {
+        background: linear-gradient(45deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+        border-color: rgba(168, 85, 247, 0.4);
+        transform: translateY(-1px);
+        color: #7c3aed;
+    }
+
+    /* Textarea auto-resize */
+    #messageInput {
+        overflow-y: hidden;
+        resize: none;
+    }
+
+    /* Enhanced button interactions */
+    button:active {
+        transform: scale(0.98);
+    }
+
+    /* Message styling */
+    .message-item {
+        opacity: 0;
+        animation: slideInUp 0.5s ease-out forwards;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .floating-circle {
+            display: none;
+        }
+        
+        .max-w-4xl {
+            max-width: 100%;
+        }
+        
+        .space-x-4 > * + * {
+            margin-left: 1rem;
+        }
+        
+        .quick-action-btn {
+            font-size: 0.625rem;
+            padding: 0.25rem 0.5rem;
+        }
+        
+        .flex-col {
+            height: calc(100vh - 2rem);
+        }
+
+        .mx-8 {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+
+        .text-2xl {
+            font-size: 1.25rem;
+        }
+    }
+
+    /* Enhanced shadows */
+    .shadow-3xl {
+        box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Backdrop blur fallback */
+    @supports not (backdrop-filter: blur(12px)) {
+        .backdrop-blur-sm {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+    }
+
+    /* Focus states */
+    button:focus,
+    textarea:focus {
+        outline: 2px solid #8b5cf6;
+        outline-offset: 2px;
+    }
+
+    /* Loading states */
+    .loading-message {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    /* Chat message max width for better readability */
+    .ai-message .bg-gradient-to-r,
+    .user-message .bg-gradient-to-r {
+        max-width: 80%;
+    }
+
+    @media (max-width: 640px) {
+        .ai-message .bg-gradient-to-r,
+        .user-message .bg-gradient-to-r {
+            max-width: 90%;
+        }
+    }
+
+    /* Notification styles */
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .notification-enter {
+        animation: slideInRight 0.3s ease-out;
+    }
+
+    /* Loading spinner animation */
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    .fa-spin {
+        animation: spin 1s linear infinite;
+    }
+</style>
+
+<!-- Enhanced JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const messageInput = document.getElementById('messageInput');
+    const chatForm = document.getElementById('chatForm');
+    const chatMessages = document.getElementById('chatMessages');
+    const sendBtn = document.getElementById('sendBtn');
+    const sendIcon = document.getElementById('sendIcon');
+    const loadingIcon = document.getElementById('loadingIcon');
+    const typingIndicator = document.getElementById('typingIndicator');
+    const charCount = document.getElementById('charCount');
+    const clearChatBtn = document.getElementById('clearChatBtn');
+    const exportChatBtn = document.getElementById('exportChatBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+
+    // Auto-resize textarea and handle input
+    messageInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        
+        // Update character count
+        const count = this.value.length;
+        charCount.textContent = count;
+        charCount.style.color = count > 450 ? '#ef4444' : count > 400 ? '#f59e0b' : '#9ca3af';
+        
+        // Enable/disable send button
+        sendBtn.disabled = count > 500 || count === 0;
+    });
+
+    // Handle Enter key (Shift+Enter for new line, Enter to send)
+    messageInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+
+    // Handle form submission
+    chatForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message && message.length <= 500) {
+            sendMessage(message);
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            charCount.textContent = '0';
+            sendBtn.disabled = true;
+        }
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const message = this.dataset.message;
+            messageInput.value = message;
+            messageInput.focus();
+            messageInput.dispatchEvent(new Event('input'));
+        });
+    });
+
+    // Clear chat functionality
+    clearChatBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear the chat history?')) {
+            // Keep only the welcome message
+            const welcomeMessage = chatMessages.querySelector('.message-item');
+            chatMessages.innerHTML = '';
+            chatMessages.appendChild(welcomeMessage);
+            showNotification('Chat Cleared', 'Chat history has been cleared successfully.', 'success');
+        }
+    });
+
+    // Export chat functionality
+    exportChatBtn.addEventListener('click', function() {
+        const messages = Array.from(chatMessages.querySelectorAll('.message-item')).map(msg => {
+            const isUser = msg.classList.contains('user-message');
+            const text = msg.querySelector('p').textContent;
+            const timestamp = msg.querySelector('.text-xs').textContent;
+            return `[${timestamp}] ${isUser ? 'You' : 'AI Assistant'}: ${text}`;
+        }).join('\n\n');
+
+        const blob = new Blob([messages], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `chat-export-${new Date().toISOString().split('T')[0]}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Export Complete', 'Chat history has been exported successfully.', 'success');
+    });
+
+    // Emoji button (placeholder for emoji picker)
+    emojiBtn.addEventListener('click', function() {
+        // Simple emoji insertion - you can integrate a proper emoji picker here
+        const emojis = ['😊', '👍', '❤️', '😄', '🤔', '👶', '🍎', '💪', '🌟', '✨'];
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        messageInput.value += randomEmoji;
+        messageInput.focus();
+        messageInput.dispatchEvent(new Event('input'));
+    });
+
+    // Send message function
+    function sendMessage(message) {
+        // Add user message to chat
+        addMessage(message, 'user');
+        
+        // Show typing indicator
+        showLoadingState();
+        
+        // Simulate API call (replace with actual API call in production)
+        setTimeout(() => {
+            const aiResponse = "This is a sample AI response. In a real application, this would come from the server.";
+            addMessage(aiResponse, 'ai');
+            hideLoadingState();
+        }, 1500);
+    }
+
+    // Add message to chat
+    function addMessage(message, sender) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message-item', `${sender}-message`);
+        messageElement.style.animationDelay = '0s';
+
+        const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        const messageContainer = document.createElement('div');
+        messageContainer.classList.add('flex', 'items-start', 'space-x-4');
+        if (sender === 'user') {
+            messageContainer.classList.add('justify-end');
+        }
+
+        const avatarDiv = document.createElement('div');
+        avatarDiv.classList.add('flex-shrink-0');
+        const avatar = document.createElement('div');
+        avatar.classList.add('w-10', 'h-10', 'rounded-full', 'flex', 'items-center', 'justify-center', 'shadow-lg');
+        if (sender === 'user') {
+            avatar.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-500');
+            avatar.innerHTML = '<i class="fas fa-user text-white text-sm"></i>';
+        } else {
+            avatar.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+            avatar.innerHTML = '<i class="fas fa-robot text-white text-sm"></i>';
+        }
+        avatarDiv.appendChild(avatar);
+
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('flex-1');
+        if (sender === 'user') {
+            messageContent.classList.add('max-w-xs', 'sm:max-w-md');
+        }
+
+        const messageBubble = document.createElement('div');
+        messageBubble.classList.add('rounded-2xl', 'p-4', 'shadow-lg');
+        if (sender === 'user') {
+            messageBubble.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-500', 'rounded-tr-sm');
+        } else {
+            messageBubble.classList.add('bg-gradient-to-r', 'from-purple-50', 'to-pink-50', 'rounded-tl-sm', 'border', 'border-purple-100');
+        }
+
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('flex', 'items-center', 'mb-2');
+        if (sender === 'user') {
+            headerDiv.classList.add('justify-end');
+        }
+
+        const senderName = document.createElement('span');
+        senderName.classList.add('text-sm', 'font-semibold');
+        if (sender === 'user') {
+            senderName.classList.add('text-white');
+            senderName.textContent = 'You';
+        } else {
+            senderName.classList.add('text-purple-700');
+            senderName.textContent = 'AI Assistant';
+        }
+
+        const timestampSpan = document.createElement('span');
+        timestampSpan.classList.add('text-xs');
+        if (sender === 'user') {
+            timestampSpan.classList.add('text-indigo-100', 'mr-2');
+        } else {
+            timestampSpan.classList.add('text-gray-500', 'ml-2');
+        }
+        timestampSpan.textContent = timestamp;
+
+        if (sender === 'user') {
+            headerDiv.appendChild(timestampSpan);
+            headerDiv.appendChild(senderName);
+        } else {
+            headerDiv.appendChild(senderName);
+            headerDiv.appendChild(timestampSpan);
+        }
+
+        const messageText = document.createElement('p');
+        messageText.classList.add('leading-relaxed');
+        if (sender === 'user') {
+            messageText.classList.add('text-white');
+        } else {
+            messageText.classList.add('text-gray-700');
+        }
+        messageText.textContent = message; // Use textContent to prevent XSS
+
+        messageBubble.appendChild(headerDiv);
+        messageBubble.appendChild(messageText);
+        messageContent.appendChild(messageBubble);
+
+        if (sender === 'user') {
+            messageContainer.appendChild(messageContent);
+            messageContainer.appendChild(avatarDiv);
+        } else {
+            messageContainer.appendChild(avatarDiv);
+            messageContainer.appendChild(messageContent);
+        }
+
+        messageElement.appendChild(messageContainer);
+        chatMessages.appendChild(messageElement);
+        scrollToBottom();
+    }
+
+    // Scroll to bottom of chat
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Show loading state
+    function showLoadingState() {
+        typingIndicator.classList.remove('hidden');
+        scrollToBottom();
+    }
+
+    // Hide loading state
+    function hideLoadingState() {
+        typingIndicator.classList.add('hidden');
+    }
+
+    // Show notification
+    function showNotification(title, message, type) {
+        const notification = document.getElementById('notification');
+        const notificationTitle = document.getElementById('notificationTitle');
+        const notificationMessage = document.getElementById('notificationMessage');
+        const notificationIcon = document.getElementById('notificationIcon');
+
+        notificationTitle.textContent = title;
+        notificationMessage.textContent = message;
+
+        if (type === 'success') {
+            notificationIcon.innerHTML = '<i class="fas fa-check-circle text-green-500"></i>';
+        } else if (type === 'error') {
+            notificationIcon.innerHTML = '<i class="fas fa-exclamation-circle text-red-500"></i>';
+        }
+
+        notification.classList.remove('hidden');
+        notification.classList.add('notification-enter');
+
+        setTimeout(() => {
+            notification.classList.add('hidden');
+            notification.classList.remove('notification-enter');
+        }, 3000);
+    }
+});
+</script>
+{% endblock %}
