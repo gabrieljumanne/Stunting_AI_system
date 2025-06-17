@@ -172,7 +172,7 @@ REST_FRAMEWORK = {
 
 #Open-router large language modal . 
 
-OPEN_ROUTER_KEY = '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'
+OPEN_ROUTER_KEY = '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'
 
 
 # In stunting_project/settings.py
