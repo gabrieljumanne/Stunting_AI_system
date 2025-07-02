@@ -8,6 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.debug import sensitive_post_parameters
 from .forms import ChildForm, MesurementForm
 from .models import Child, Measurement, Result
+import json
 
 
 # ChildregistrationView
@@ -122,4 +123,71 @@ class ChildResultsView(DetailView):
             measurement__child__id = child_id,
             measurement__child__parent = self.request.user,
         )
+
+
+class ChildGrowthChartView(DetailView):
+    """View to display child growth chart with interactive visualization"""
+    model = Child
+    template_name = 'measurement/child_chart.html'
+    context_object_name = 'child'
+    pk_url_kwarg = 'child_id'
+    
+    def dispatch(self, request, *args, **kwargs):
+        """Verify the user is the parent of the child"""
+        child_id = self.kwargs['child_id']
+        if not Child.objects.filter(
+            id=child_id,
+            parent=request.user
+        ).exists():
+            messages.error(request, "You don't have permission to view this child's data.")
+            return redirect('dashbord:parent')
         
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_object(self, queryset=None):
+        """Get the child object"""
+        return get_object_or_404(
+            Child,
+            pk=self.kwargs['child_id'],
+            parent=self.request.user
+        )
+    
+    def get_context_data(self, **kwargs):
+        """Add chart data to context"""
+        context = super().get_context_data(**kwargs)
+        child = self.object
+        
+        # Get all measurements for this child
+        measurements = Measurement.objects.filter(
+            child=child
+        ).order_by('date')
+        
+        # Prepare chart data
+        chart_data = []
+        for measurement in measurements:
+            try:
+                result = Result.objects.get(measurement=measurement)
+                chart_data.append({
+                    'date': measurement.date.strftime('%Y-%m-%d'),
+                    'age_months': measurement.age_months,
+                    'height': float(measurement.height),
+                    'weight': float(measurement.weight),
+                    'haz_score': float(result.haz),
+                    'waz_score': float(result.waz) if hasattr(result, 'waz') else None,
+                    'whz_score': float(result.whz) if hasattr(result, 'whz') else None,
+                    'is_stunted': result.is_stunted,
+                    'severity': result.severity
+                })
+            except Result.DoesNotExist:
+                # If no result exists for this measurement, skip it
+                continue
+        
+        context['chart_data'] = chart_data
+        context['chart_data_json'] = json.dumps(chart_data)
+        context['measurements_count'] = len(chart_data)
+        
+        # Add latest measurement data
+        if chart_data:
+            context['latest_measurement'] = chart_data[-1]
+        
+        return context

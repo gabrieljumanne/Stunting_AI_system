@@ -1,0 +1,456 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+    <!-- Header -->
+    <div class="bg-white/90 backdrop-blur-sm border-b border-green-100 shadow-lg mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button onclick="goBack()" class="flex items-center justify-center w-14 h-14 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-full shadow-xl transition-all duration-300 hover:shadow-2xl transform hover:scale-110 border-3 border-green-300">
+                        <i class="fas fa-arrow-left text-xl drop-shadow-lg"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-4xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent flex items-center">
+                            <i class="fas fa-utensils text-green-600 mr-4 text-3xl drop-shadow-lg"></i>
+                            Nutrition Advice
+                        </h1>
+                        <p class="text-gray-600 mt-2 text-lg font-semibold">Personalized nutrition recommendations for your child</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="{% url 'ai_assitance:child_insights_page' %}" class="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Back to Insights
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-16">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full mb-8 animate-pulse shadow-2xl">
+                <i class="fas fa-utensils text-4xl text-white drop-shadow-lg"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Loading Nutrition Advice...</h3>
+            <p class="text-gray-600 text-xl">Preparing personalized recommendations for your child</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden text-center py-16">
+            <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-red-500 to-red-600 rounded-full mb-8 shadow-2xl">
+                <i class="fas fa-exclamation-triangle text-4xl text-white drop-shadow-lg"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Unable to Load Nutrition Advice</h3>
+            <p class="text-gray-600 mb-8 text-xl" id="errorMessage">Something went wrong while loading the data.</p>
+            <button onclick="loadNutritionAdvice()" class="px-10 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 border-2 border-green-300">
+                <i class="fas fa-redo mr-3 text-lg"></i>
+                Try Again
+            </button>
+        </div>
+
+        <!-- Nutrition Content -->
+        <div id="nutritionContent" class="hidden">
+            <!-- Nutrition advice content will be loaded here -->
+        </div>
+
+        <!-- Quick Actions -->
+        <div id="quickActions" class="hidden mt-12 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-2 border-white/30">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                    <i class="fas fa-rocket text-white text-lg"></i>
+                </div>
+                Quick Actions
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6">
+                <a href="{% url 'ai_assitance:child_insights_page' %}" class="group flex items-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-2xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-300 hover:shadow-lg transform hover:scale-105">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                        <i class="fas fa-chart-line text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">Growth Insights</h4>
+                        <p class="text-gray-600">View detailed analysis</p>
+                    </div>
+                </a>
+                <button onclick="loadGrowthChart()" class="group flex items-center p-6 bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 rounded-2xl transition-all duration-300 border-2 border-purple-200 hover:border-purple-300 hover:shadow-lg transform hover:scale-105">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                        <i class="fas fa-chart-area text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">Growth Chart</h4>
+                        <p class="text-gray-600">Track progress over time</p>
+                    </div>
+                </button>
+                <a href="{% url 'ai_assitance:chat' %}" class="group flex items-center p-6 bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 rounded-2xl transition-all duration-300 border-2 border-emerald-200 hover:border-emerald-300 hover:shadow-lg transform hover:scale-105">
+                    <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center mr-4 shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                        <i class="fas fa-comments text-2xl text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">AI Chat</h4>
+                        <p class="text-gray-600">Ask questions</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .nutrition-section {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+        backdrop-filter: blur(15px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.4s ease;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .nutrition-section:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+        border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        border-radius: 9999px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-normal {
+        background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+        color: #064e3b;
+        border: 2px solid #10b981;
+    }
+
+    .status-severe {
+        background: linear-gradient(135deg, #fee2e2, #fecaca);
+        color: #7f1d1d;
+        border: 2px solid #ef4444;
+    }
+
+    .info-card {
+        background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+        border: 2px solid #3b82f6;
+        transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+    }
+
+    .recommendation-card {
+        background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+        border: 2px solid #22c55e;
+        transition: all 0.3s ease;
+    }
+
+    .recommendation-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(34, 197, 94, 0.2);
+    }
+
+    .schedule-card {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        border: 2px solid #f97316;
+        transition: all 0.3s ease;
+    }
+
+    .schedule-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(249, 115, 22, 0.2);
+    }
+
+    .warning-card {
+        background: linear-gradient(135deg, #fef2f2, #fecaca);
+        border: 2px solid #ef4444;
+        transition: all 0.3s ease;
+    }
+
+    .warning-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
+    }
+
+    .steps-card {
+        background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+        border: 2px solid #8b5cf6;
+        transition: all 0.3s ease;
+    }
+
+    .steps-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+    }
+
+    .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Animation keyframes */
+    @keyframes pulse-glow {
+        0%, 100% {
+            box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+        }
+        50% {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.8), 0 0 30px rgba(34, 197, 94, 0.6);
+        }
+    }
+
+    .animate-pulse-glow {
+        animation: pulse-glow 2s infinite;
+    }
+</style>
+
+<script>
+let currentChildId = {{ child_id }};
+
+function goBack() {
+    // Navigate directly to child insights page
+    window.location.href = '/ai_assitance/child-insights/';
+}
+
+// Load nutrition advice when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadNutritionAdvice();
+});
+
+async function loadNutritionAdvice() {
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const nutritionContent = document.getElementById('nutritionContent');
+    const quickActions = document.getElementById('quickActions');
+
+    // Show loading state
+    loadingState.classList.remove('hidden');
+    errorState.classList.add('hidden');
+    nutritionContent.classList.add('hidden');
+    quickActions.classList.add('hidden');
+
+    try {
+        const response = await fetch(`/ai_assitance/nutrition-advice/${currentChildId}/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            displayNutritionAdvice(data);
+        } else {
+            showError(data.error || 'Failed to load nutrition advice');
+        }
+    } catch (error) {
+        console.error('Error loading nutrition advice:', error);
+        showError('Network error. Please check your connection.');
+    }
+}
+
+function displayNutritionAdvice(advice) {
+    const loadingState = document.getElementById('loadingState');
+    const nutritionContent = document.getElementById('nutritionContent');
+    const quickActions = document.getElementById('quickActions');
+
+    loadingState.classList.add('hidden');
+
+    const statusIcon = advice.current_status.is_stunted ? 'fa-exclamation-triangle text-red-600' : 'fa-check-circle text-green-600';
+
+    nutritionContent.innerHTML = `
+        <div class="space-y-8">
+            <!-- Child Info -->
+            <div class="nutrition-section info-card rounded-3xl p-8 shadow-2xl">
+                <h2 class="text-3xl font-black text-blue-900 mb-6 flex items-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <i class="fas fa-child text-2xl text-white"></i>
+                    </div>
+                    ${advice.child_name} (${advice.age})
+                </h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-blue-700 font-bold text-lg flex items-center">
+                                <i class="fas fa-ruler-vertical mr-3 text-blue-600"></i>
+                                Height:
+                            </span>
+                            <span class="font-black text-2xl text-blue-900">${advice.current_status.height} cm</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-blue-700 font-bold text-lg flex items-center">
+                                <i class="fas fa-weight mr-3 text-blue-600"></i>
+                                Weight:
+                            </span>
+                            <span class="font-black text-2xl text-blue-900">${advice.current_status.weight} kg</span>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-blue-700 font-bold text-lg flex items-center">
+                                <i class="fas fa-chart-bar mr-3 text-blue-600"></i>
+                                HAZ Score:
+                            </span>
+                            <span class="font-black text-2xl text-blue-900">${advice.current_status.haz_score}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-blue-700 font-bold text-lg">Status:</span>
+                            <span class="status-badge ${advice.current_status.is_stunted ? 'status-severe' : 'status-normal'}">
+                                <i class="fas ${statusIcon} mr-2 text-lg"></i>
+                                ${advice.current_status.is_stunted ? 'Stunted' : 'Normal'}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Recommendations -->
+            <div class="nutrition-section recommendation-card rounded-3xl p-8 shadow-2xl">
+                <h3 class="text-2xl font-black text-gray-800 mb-6 flex items-center">
+                    <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <i class="fas fa-lightbulb text-xl text-white"></i>
+                    </div>
+                    Quick Recommendations
+                </h3>
+                <div class="grid gap-4">
+                    ${advice.quick_recommendations.map(rec => `
+                        <div class="flex items-start p-4 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-300">
+                            <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0 shadow-lg">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <span class="text-gray-700 font-medium text-lg leading-relaxed">${rec}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Feeding Schedule -->
+            <div class="nutrition-section schedule-card rounded-3xl p-8 shadow-2xl">
+                <h3 class="text-2xl font-black text-orange-900 mb-6 flex items-center">
+                    <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <i class="fas fa-clock text-xl text-white"></i>
+                    </div>
+                    Feeding Schedule
+                </h3>
+                <div class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-orange-700 font-bold text-lg">Frequency:</span>
+                            <span class="text-orange-900 font-black text-xl">${advice.feeding_schedule.frequency}</span>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-white/60 rounded-xl">
+                            <span class="text-orange-700 font-bold text-lg">Type:</span>
+                            <span class="text-orange-900 font-black text-xl">${advice.feeding_schedule.type}</span>
+                        </div>
+                    </div>
+                    ${advice.feeding_schedule.schedule ? `
+                        <div class="p-6 bg-white/60 rounded-xl">
+                            <h4 class="text-orange-700 font-bold text-xl mb-4">Daily Schedule:</h4>
+                            <div class="grid md:grid-cols-2 gap-3">
+                                ${advice.feeding_schedule.schedule.map(item => `
+                                    <div class="flex items-center p-3 bg-orange-50 rounded-lg hover:bg-orange-100 transition-all duration-300">
+                                        <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-3 shadow">
+                                            <i class="fas fa-clock text-white text-xs"></i>
+                                        </div>
+                                        <span class="text-orange-800 font-semibold">${item}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+
+            <!-- Warning Signs -->
+            <div class="nutrition-section warning-card rounded-3xl p-8 shadow-2xl">
+                <h3 class="text-2xl font-black text-red-900 mb-6 flex items-center">
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <i class="fas fa-exclamation-triangle text-xl text-white"></i>
+                    </div>
+                    Warning Signs to Watch
+                </h3>
+                <div class="grid gap-4">
+                    ${advice.warning_signs.map(sign => `
+                        <div class="flex items-start p-4 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-300">
+                            <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0 shadow-lg">
+                                <i class="fas fa-exclamation text-white text-sm"></i>
+                            </div>
+                            <span class="text-red-700 font-medium text-lg leading-relaxed">${sign}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="nutrition-section steps-card rounded-3xl p-8 shadow-2xl">
+                <h3 class="text-2xl font-black text-purple-900 mb-6 flex items-center">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
+                        <i class="fas fa-route text-xl text-white"></i>
+                    </div>
+                    Next Steps
+                </h3>
+                <div class="grid gap-4">
+                    ${advice.next_steps.map((step, index) => `
+                        <div class="flex items-start p-4 bg-white/60 rounded-xl hover:bg-white/80 transition-all duration-300">
+                            <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0 shadow-lg">
+                                <span class="text-white text-sm font-bold">${index + 1}</span>
+                            </div>
+                            <span class="text-purple-700 font-medium text-lg leading-relaxed">${step}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+
+    nutritionContent.classList.remove('hidden');
+    quickActions.classList.remove('hidden');
+}
+
+function showError(message) {
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const errorMessage = document.getElementById('errorMessage');
+
+    loadingState.classList.add('hidden');
+    errorMessage.textContent = message;
+    errorState.classList.remove('hidden');
+}
+
+function loadGrowthChart() {
+    window.location.href = `/measurement/child/${currentChildId}/chart/`;
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

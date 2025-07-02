@@ -26,13 +26,14 @@ def get_median_height(age_months, gender):
     if age_months > ages[-1]:
         return data[ages[-1]][0]
     
-    # logic fcor not found age in data set 
+    # logic for not found age in data set 
      
     lower_age = max(a for a in ages if a < age_months)  
     upper_age = min(a for a in ages if a > age_months)
     
-    upper_height = data[upper_age][1]
-    lower_height = data[lower_age][1]
+    # Get the median heights (first element [0] in the tuple) 
+    upper_height = data[upper_age][0]
+    lower_height = data[lower_age][0]
     
     # linear interpolation 
     ratio = (age_months - lower_age)/(upper_age-lower_age)
@@ -57,10 +58,11 @@ def get_sd(age_months, gender):
     upper_age = min(a for a in ages if a > age_months)
     lower_age = max(a for a in ages if a < age_months)
     
+    # Get the standard deviations (second element [1] in the tuple)
     upper_std = data[upper_age][1]
     lower_std = data[lower_age][1]
     
-    # liner interpolation 
+    # linear interpolation 
     ratio = (age_months - lower_age)/ (upper_age - lower_age)
     return lower_std  + ratio * (upper_std - lower_std)
     
@@ -132,16 +134,22 @@ class Result(models.Model):
     
     def save(self, *args, **kwargs):
         #calculation of HAZ
-        median_height = get_median_height(self.measurement.age_months,self.measurement.child.gender)
+        median_height = get_median_height(self.measurement.age_months, self.measurement.child.gender)
         sd = get_sd(self.measurement.age_months, self.measurement.child.gender)
         self.haz = (self.measurement.height - median_height) / sd 
         self.is_stunted = self.haz < -2
         if self.is_stunted:
-            self.severity = 'Severe' if self.haz < -3 else 'moderate'
-            self.recommendation ='Vist our AI-assistance for guidence'
+            self.severity = 'Severe' if self.haz < -3 else 'Moderate'
+            self.recommendation = 'Visit our AI-assistance for guidance'
         else:
             self.severity = None
-            self.recommendation  = ' You are child is growing well'
+            self.recommendation = 'Your child is growing well'
+            
+        # Debug info
+        print(f"DEBUG: age_months={self.measurement.age_months}, gender={self.measurement.child.gender}, " 
+              f"height={self.measurement.height}, median_height={median_height}, sd={sd}, "
+              f"HAZ={self.haz:.2f}, is_stunted={self.is_stunted}, severity={self.severity}")
+        
         super().save(*args, **kwargs)
         
     def __str__(self):

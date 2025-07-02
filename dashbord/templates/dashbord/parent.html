@@ -1,116 +1,141 @@
 {% extends "base.html" %}
+{% load i18n %}
+
+{% block extra_css %}
+<!-- Ensure Font Awesome is loaded -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+<div class="min-h-screen bg-white relative overflow-hidden">
     <!-- Header Section -->
     <div class="relative z-10 pt-8 pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Welcome Header -->
             <div class="text-center mb-12">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl mb-6 shadow-2xl animate-pulse-slow">
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                    </svg>
+                    <i class="fas fa-heart text-4xl text-white drop-shadow-lg"></i>
                 </div>
-                <h1 class="text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                    Welcome Back, {{ user.first_name|default:user.username }}!
+                <h1 class="text-5xl font-bold mb-4 text-gray-800 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text gradient-text">
+                    {% blocktrans with name=user.first_name|default:user.username %}Welcome Back, {{ name }}!{% endblocktrans %}
                 </h1>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Your child's health journey continues here. Track growth, get insights, and access AI-powered assistance.
+                    {% trans "Your child's health journey continues here. Track growth, get insights, and access AI-powered assistance." %}
                 </p>
             </div>
 
             <!-- Dashboard Cards Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                
-                <!-- Stunting Measurement Card -->
+
+                <!-- Growth Tracking Card -->
                 <div class="lg:col-span-2 group relative">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 via-cyan-500 to-teal-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
-                    <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.02] border border-white/20">
-                        
+                    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 via-green-500 to-teal-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                    <div class="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.02] border border-white/30">
+
                         <!-- Card Header -->
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center">
-                                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg mr-4">
-                                    <i class="fas fa-ruler-vertical text-2xl text-white"></i>
+                                <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl mr-4 border-4 border-emerald-200">
+                                    <i class="fas fa-chart-line text-4xl text-white drop-shadow-lg"></i>
                                 </div>
                                 <div>
-                                    <h2 class="text-2xl font-bold text-gray-800">Growth Tracking</h2>
-                                    <p class="text-gray-600">Monitor your child's development</p>
+                                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                                        <i class="fas fa-seedling text-emerald-600 mr-2 text-xl"></i>
+                                        {% trans "Growth Tracking" %}
+                                    </h2>
+                                    <p class="text-emerald-600 font-medium">{% trans "Monitor your child's development" %}</p>
                                 </div>
                             </div>
-                            <a href="{% url 'measurement:child_register' %}" 
-                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                                <span>New Measurement</span>
-                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
+                            <a href="{% url 'measurement:child_register' %}"
+                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 ring-2 ring-emerald-200">
+                                <i class="fas fa-plus mr-2 text-white drop-shadow"></i>
+                                <span>{% trans "New Measurement" %}</span>
+                                <i class="fas fa-arrow-right ml-2 text-white drop-shadow"></i>
                             </a>
                         </div>
 
                         <!-- Recent Measurement Section -->
-                        <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+                        <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200">
                             <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                                <div class="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                                Latest Measurement
+                                <div class="w-3 h-3 bg-emerald-500 rounded-full mr-3 animate-pulse"></div>
+                                <i class="fas fa-clock text-emerald-600 mr-2"></i>
+                                {% trans "Latest Measurement" %}
                             </h3>
-                            
+
                             {% if latest_child %}
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="space-y-3">
                                     <div class="flex items-center">
-                                        <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-3 shadow-2xl border-4 border-blue-200">
+                                            <i class="fas fa-child text-3xl text-white drop-shadow-lg"></i>
+                                        </div>
                                         <div>
-                                            <p class="text-sm text-gray-600">Child Name</p>
-                                            <p class="font-semibold text-gray-800">{{ latest_child.name }}</p>
+                                            <p class="text-sm text-blue-600 font-bold flex items-center">
+                                                <i class="fas fa-user text-blue-500 mr-1"></i>
+                                                {% trans "Child Name" %}
+                                            </p>
+                                            <p class="font-bold text-gray-800 text-lg">{{ latest_child.name }}</p>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="flex items-center">
-                                        <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
+                                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mr-3 shadow-2xl border-4 border-purple-200">
+                                            <i class="fas fa-birthday-cake text-3xl text-white drop-shadow-lg"></i>
+                                        </div>
                                         <div>
-                                            <p class="text-sm text-gray-600">Birth Date</p>
-                                            <p class="font-semibold text-gray-800">{{ latest_child.date_of_birth }}</p>
+                                            <p class="text-sm text-purple-600 font-bold flex items-center">
+                                                <i class="fas fa-calendar-alt text-purple-500 mr-1"></i>
+                                                {% trans "Birth Date" %}
+                                            </p>
+                                            <p class="font-bold text-gray-800 text-lg">{{ latest_child.date_of_birth }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="space-y-3">
-                                    {% if latest_child_result.is_stunted %}
-                                        <div class="bg-green-100 border border-green-200 rounded-xl p-4">
+                                    {% if not latest_child_result.is_stunted %}
+                                        <div class="bg-green-100 border-4 border-green-400 rounded-xl p-4 shadow-2xl">
                                             <div class="flex items-center mb-2">
-                                                <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                <span class="font-semibold text-green-800">Healthy Growth</span>
+                                                <div class="w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mr-3 shadow-2xl border-4 border-green-200">
+                                                    <i class="fas fa-check-circle text-2xl text-white drop-shadow-lg"></i>
+                                                </div>
+                                                <span class="font-bold text-green-800 text-xl flex items-center">
+                                                    <i class="fas fa-heart text-red-500 mr-2"></i>
+                                                    {% trans "Healthy Growth" %}
+                                                </span>
                                             </div>
-                                            <p class="text-sm text-green-700">Your child is growing well and meeting developmental milestones.</p>
+                                            <p class="text-sm text-green-700 font-medium">{% trans "Your child is growing well and meeting developmental milestones." %}</p>
                                         </div>
                                     {% else %}
-                                        <div class="bg-amber-100 border border-amber-200 rounded-xl p-4">
+                                        <div class="{% if latest_child_result.severity == 'Severe' %}bg-red-100 border-4 border-red-400{% else %}bg-orange-100 border-4 border-orange-400{% endif %} rounded-xl p-4 shadow-2xl">
                                             <div class="flex items-center mb-2">
-                                                <svg class="w-6 h-6 text-amber-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.502 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                                                </svg>
-                                                <span class="font-semibold text-amber-800">Needs Attention</span>
+                                                <div class="w-14 h-14 {% if latest_child_result.severity == 'Severe' %}bg-gradient-to-br from-red-500 to-pink-600 border-4 border-red-200{% else %}bg-gradient-to-br from-orange-500 to-yellow-600 border-4 border-orange-200{% endif %} rounded-full flex items-center justify-center mr-3 shadow-2xl">
+                                                    <i class="fas fa-exclamation-triangle text-2xl text-white drop-shadow-lg"></i>
+                                                </div>
+                                                <span class="font-bold {% if latest_child_result.severity == 'Severe' %}text-red-800{% else %}text-orange-800{% endif %} text-xl flex items-center">
+                                                    <i class="fas fa-stethoscope text-blue-600 mr-2"></i>
+                                                    {% if latest_child_result.severity == 'Severe' %}
+                                                        {% trans "Severe Stunting" %}
+                                                    {% else %}
+                                                        {% trans "Moderate Stunting" %}
+                                                    {% endif %}
+                                                </span>
                                             </div>
-                                            <p class="text-sm text-amber-700">Consider consulting with healthcare providers for guidance.</p>
+                                            <p class="text-sm {% if latest_child_result.severity == 'Severe' %}text-red-700{% else %}text-orange-700{% endif %} font-medium">{{ latest_child_result.recommendation }}</p>
                                         </div>
                                     {% endif %}
                                 </div>
                             </div>
                             {% else %}
                             <div class="text-center py-8">
-                                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                </svg>
-                                <p class="text-gray-500">No measurements recorded yet</p>
-                                <p class="text-sm text-gray-400 mt-1">Start tracking your child's growth today!</p>
+                                <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-chart-bar text-3xl text-gray-600"></i>
+                                </div>
+                                <p class="text-gray-500 flex items-center justify-center">
+                                    <i class="fas fa-info-circle text-gray-500 mr-2"></i>
+                                    {% trans "No measurements recorded yet" %}
+                                </p>
+                                <p class="text-sm text-gray-500 mt-1">{% trans "Start tracking your child's growth today!" %}</p>
                             </div>
                             {% endif %}
                         </div>
@@ -119,62 +144,58 @@
 
                 <!-- Quick Actions Card -->
                 <div class="group relative">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 via-teal-500 to-green-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
-                    <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.02] border border-white/20 h-full">
-                        
+                    <div class="absolute -inset-1 bg-gradient-to-r from-violet-400 via-purple-500 to-indigo-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                    <div class="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.02] border border-white/30 h-full">
+
                         <div class="text-center mb-6">
-                            <div class="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-lg">
-                                <svg class="w-8 h-8 text-white" fill="red" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl mx-auto mb-4 flex items-center justify-center shadow-2xl border-4 border-purple-200">
+                                <i class="fas fa-cogs text-4xl text-white drop-shadow-lg"></i>
                             </div>
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">Quick Actions</h2>
-                            <p class="text-gray-600 text-sm">Manage your account settings</p>
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center">
+                                <i class="fas fa-tools text-purple-600 mr-2"></i>
+                                {% trans "Quick Actions" %}
+                            </h2>
+                            <p class="text-violet-600 font-medium">{% trans "Manage your account settings" %}</p>
                         </div>
 
                         <div class="space-y-4">
-                            <button id="openProfileEditModal" 
-                                    class="w-full flex items-center p-4 bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 rounded-xl transition-all duration-300 border border-emerald-100 hover:border-emerald-200 group/btn">
-                                <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center mr-4 group-hover/btn:scale-110 transition-transform">
-                                    <i class="fas fa-user text-white text-sm"></i>
+                            <!-- Account Settings Button -->
+                            <a href="{% url 'core:account_settings' %}"
+                               class="w-full flex items-center p-4 bg-purple-100 hover:bg-purple-200 rounded-xl transition-all duration-300 border-4 border-purple-400 hover:border-purple-500 group/btn shadow-2xl hover:shadow-2xl">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4 group-hover/btn:scale-110 transition-transform shadow-2xl border-4 border-purple-200">
+                                    <i class="fas fa-cog text-3xl text-white drop-shadow-lg"></i>
                                 </div>
                                 <div class="flex-1 text-left">
-                                    <p class="font-semibold text-gray-800">Edit Profile</p>
-                                    <p class="text-sm text-gray-600">Update your personal information</p>
+                                    <p class="font-bold text-gray-800 text-xl flex items-center">
+                                        <i class="fas fa-user-cog text-purple-600 mr-2"></i>
+                                        {% trans "Account Settings" %}
+                                    </p>
+                                    <p class="text-sm text-purple-600 font-medium">{% trans "Manage your profile, security, and preferences" %}</p>
                                 </div>
-                                <svg class="w-5 h-5 text-emerald-500 group-hover/btn:translate-x-1 transition-transform" fill="" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
+                                <i class="fas fa-chevron-right text-2xl text-purple-600 group-hover/btn:translate-x-1 transition-transform drop-shadow"></i>
+                            </a>
 
-                            <button id='openPasswordChangeModal' 
-                                    class="w-full flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-xl transition-all duration-300 border border-blue-100 hover:border-blue-200 group/btn">
-                                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center mr-4 group-hover/btn:scale-110 transition-transform">
-                                    <i class="fas fa-lock text-white text-sm"></i>
-                                </div>
-                                <div class="flex-1 text-left">
-                                    <p class="font-semibold text-gray-800">Change Password</p>
-                                    <p class="text-sm text-gray-600">Update your security credentials</p>
-                                </div>
-                                <svg class="w-5 h-5 text-blue-500 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-
-                            <form id="logout-form" action="{%url 'core:logout'%}" method="POST" class="w-full">
+                            <!-- Logout Button -->
+                            <form id="logout-form" action="{% url 'core:logout' %}" method="POST" class="w-full">
                                 {% csrf_token %}
-                                <button type="submit" 
-                                        class="w-full flex items-center p-4 bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 rounded-xl transition-all duration-300 border border-red-100 hover:border-red-200 group/btn">
-                                    <div class="w-10 h-10 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg flex items-center justify-center mr-4 group-hover/btn:scale-110 transition-transform">
-                                        <i class="fas fa-sign-out-alt text-white text-sm"></i>
+                                <button type="submit"
+                                        class="w-full flex items-center p-4 bg-red-100 hover:bg-red-200 rounded-xl transition-all duration-300 border-4 border-red-400 hover:border-red-500 group/btn shadow-2xl hover:shadow-2xl">
+                                    <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl flex items-center justify-center mr-4 group-hover/btn:scale-110 transition-transform shadow-2xl border-4 border-red-200">
+                                        <i class="fas fa-sign-out-alt text-3xl text-white drop-shadow-lg"></i>
                                     </div>
                                     <div class="flex-1 text-left">
-                                        <p class="font-semibold text-gray-800">Log Out</p>
-                                        <p class="text-sm text-gray-600">Sign out of your account</p>
+                                        <p class="font-bold text-gray-800 text-xl flex items-center">
+                                            <i class="fas fa-door-open text-red-600 mr-2"></i>
+                                            {% trans "Log Out" %}
+                                        </p>
+                                        <p class="text-sm text-red-600 font-medium">{% trans "Sign out of your account" %}</p>
                                     </div>
-                                    <svg class="w-5 h-5 text-red-500 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
+                                    <i class="fas fa-chevron-right text-2xl text-red-600 group-hover/btn:translate-x-1 transition-transform drop-shadow"></i>
+                                </button>
+                            </form>
+                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-2xl text-red-600 group-hover/btn:translate-x-1 transition-transform drop-shadow"></i>
                                 </button>
                             </form>
                         </div>
@@ -182,73 +203,209 @@
                 </div>
             </div>
 
-            <!-- AI Assistance Section -->
+            <!-- Food Analysis Section -->
             <div class="group relative mb-12">
-                <div class="absolute -inset-1 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
-                <div class="relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.01] border border-white/20">
-                    
+                <div class="absolute -inset-1 bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                <div class="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.01] border border-white/30">
+
                     <!-- Section Header -->
                     <div class="text-center mb-8">
-                        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl mb-6 shadow-xl">
-                            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                            </svg>
+                        <div class="inline-flex items-center justify-center w-28 h-28 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl mb-6 shadow-2xl border-4 border-orange-200">
+                            <i class="fas fa-camera text-5xl text-white drop-shadow-lg"></i>
                         </div>
-                        <h2 class="text-3xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            AI-Powered Assistance
+                        <h2 class="text-3xl font-bold mb-4 text-orange-700 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text gradient-text flex items-center justify-center">
+                            <i class="fas fa-utensils text-orange-600 mr-3 text-2xl"></i>
+                            {% trans "Food Image Analysis" %}
                         </h2>
-                        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                            Get intelligent guidance for your child's growth and development journey
+                        <p class="text-xl text-orange-600 font-medium max-w-2xl mx-auto">
+                            {% trans "Upload a food image to get instant nutritional information and recommendations" %}
+                        </p>
+                    </div>
+
+                    <!-- Upload Section -->
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Upload Area -->
+                        <div class="space-y-6">
+                            <div id="uploadArea" class="border-4 border-dashed border-orange-300 rounded-2xl p-8 text-center bg-orange-50 hover:bg-orange-100 transition-all duration-300 cursor-pointer group/upload">
+                                <div class="space-y-4">
+                                    <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg group-hover/upload:scale-110 transition-transform">
+                                        <i class="fas fa-camera text-3xl text-white drop-shadow-lg"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-800 mb-2 flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-orange-600 mr-2"></i>
+                                            {% trans "Upload or Capture Food Image" %}
+                                        </h3>
+                                        <p class="text-gray-600 text-sm mb-2">{% trans "📱 On mobile: Tap to take photo with camera" %}</p>
+                                        <p class="text-gray-600 text-sm">{% trans "💻 On desktop: Click to browse files" %}</p>
+                                        <p class="text-gray-500 text-xs mt-2">{% trans "Auto-converts to JPEG • Max 10MB" %}</p>
+                                    </div>
+                                    <!-- Multiple input options -->
+                                    <div class="flex justify-center space-x-3 mt-4">
+                                        <button type="button" id="cameraBtn" class="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-all shadow-lg">
+                                            <i class="fas fa-camera mr-2"></i>{% trans "Camera" %}
+                                        </button>
+                                        <button type="button" id="galleryBtn" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all shadow-lg">
+                                            <i class="fas fa-images mr-2"></i>{% trans "Gallery" %}
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Camera input (prioritizes camera on mobile) -->
+                                <input type="file" id="foodImageInput" accept="image/*" capture="environment" class="hidden">
+                                <!-- Gallery input (no capture, file browser only) -->
+                                <input type="file" id="galleryImageInput" accept="image/*" class="hidden">
+                            </div>
+
+                            <!-- Preview Area -->
+                            <div id="imagePreview" class="hidden bg-gray-50 rounded-2xl p-4 border-2 border-gray-200">
+                                <img id="previewImg" src="" alt="Food preview" class="w-full h-48 object-cover rounded-lg mb-4">
+                                <div class="flex justify-between items-center">
+                                    <span id="fileName" class="text-sm text-gray-600 font-medium"></span>
+                                    <button id="removeImage" class="text-red-500 hover:text-red-700 font-medium text-sm flex items-center">
+                                        <i class="fas fa-times mr-1"></i>
+                                        {% trans "Remove" %}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Analyze Button -->
+                            <button id="analyzeButton" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-orange-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <i class="fas fa-search mr-2"></i>
+                                <span id="analyzeButtonText">{% trans "Select Image to Analyze" %}</span>
+                            </button>
+                        </div>
+
+                        <!-- Results Area -->
+                        <div class="space-y-6">
+                            <!-- Loading State -->
+                            <div id="loadingState" class="hidden bg-blue-100 border-l-4 border-blue-500 p-6 rounded-lg">
+                                <div class="flex items-center">
+                                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mr-4"></div>
+                                    <div>
+                                        <h3 class="text-blue-800 font-semibold">{% trans "Analyzing Image..." %}</h3>
+                                        <p class="text-blue-600 text-sm">{% trans "Our AI is identifying the food and gathering nutritional information" %}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Results Display -->
+                            <div id="resultsContainer" class="hidden space-y-4">
+                                <!-- Food Identification -->
+                                <div class="bg-green-50 rounded-2xl p-6 border-2 border-green-200">
+                                    <h3 class="text-lg font-semibold text-green-800 mb-4 flex items-center">
+                                        <i class="fas fa-leaf mr-2"></i>
+                                        {% trans "Food Identification" %}
+                                    </h3>
+                                    <div id="foodIdentification" class="space-y-3">
+                                        <!-- Results populated by JavaScript -->
+                                    </div>
+                                </div>
+
+                                <!-- Nutritional Information -->
+                                <div class="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200">
+                                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                                        <i class="fas fa-info-circle mr-2"></i>
+                                        {% trans "Nutritional Information" %}
+                                    </h3>
+                                    <div id="nutritionalInfo" class="space-y-3">
+                                        <!-- Results populated by JavaScript -->
+                                    </div>
+                                </div>
+
+                                <!-- Recommendations -->
+                                <div id="recommendationsContainer" class="hidden bg-purple-50 rounded-2xl p-6 border-2 border-purple-200">
+                                    <h3 class="text-lg font-semibold text-purple-800 mb-4 flex items-center">
+                                        <i class="fas fa-lightbulb mr-2"></i>
+                                        {% trans "Recommendations" %}
+                                    </h3>
+                                    <div id="recommendations" class="space-y-2">
+                                        <!-- Recommendations populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Error Display -->
+                            <div id="errorContainer" class="hidden bg-red-100 border-l-4 border-red-500 p-6 rounded-lg">
+                                <div class="flex">
+                                    <i class="fas fa-exclamation-triangle text-red-500 mr-3 mt-1"></i>
+                                    <div>
+                                        <h3 class="text-red-800 font-semibold">{% trans "Analysis Error" %}</h3>
+                                        <p id="errorMessage" class="text-red-700 text-sm"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Assistance Section -->
+            <div class="group relative mb-12">
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 rounded-3xl blur-lg opacity-0 group-hover:opacity-30 transition-all duration-500"></div>
+                <div class="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl hover:shadow-3xl transform transition-all duration-500 hover:scale-[1.01] border border-white/30">
+
+                    <!-- Section Header -->
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center justify-center w-28 h-28 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-3xl mb-6 shadow-2xl border-4 border-cyan-200">
+                            <i class="fas fa-robot text-5xl text-white drop-shadow-lg"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold mb-4 text-cyan-700 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text gradient-text flex items-center justify-center">
+                            <i class="fas fa-brain text-cyan-600 mr-3 text-2xl"></i>
+                            {% trans "AI-Powered Assistance" %}
+                        </h2>
+                        <p class="text-xl text-cyan-600 font-medium max-w-2xl mx-auto">
+                            {% trans "Get intelligent guidance for your child's growth and development journey" %}
                         </p>
                     </div>
 
                     <!-- AI Features Grid -->
                     <div class="grid md:grid-cols-2 gap-6">
-                        <a href="{%url 'ai_assitance:chat'%}" 
-                           class="group/ai flex items-start p-6 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 rounded-2xl transition-all duration-300 border border-purple-100 hover:border-purple-200 hover:shadow-lg transform hover:scale-105">
+                        <a href="{%url 'ai_assitance:chat'%}"
+                           class="group/ai flex items-start p-6 bg-cyan-100 hover:bg-cyan-200 rounded-2xl transition-all duration-300 border-4 border-cyan-400 hover:border-cyan-500 hover:shadow-2xl transform hover:scale-105">
                             <div class="flex-shrink-0 mr-6">
-                                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg group-hover/ai:shadow-xl group-hover/ai:scale-110 transition-all duration-300">
-                                    <i class="fas fa-robot text-2xl text-white"></i>
+                                <div class="w-20 h-20 bg-gradient-to-br from-cyan-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover/ai:shadow-2xl group-hover/ai:scale-110 transition-all duration-300 border-4 border-cyan-200">
+                                    <i class="fas fa-comments text-4xl text-white drop-shadow-lg"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover/ai:text-purple-700 transition-colors">
-                                    Chatbot Assistance
+                                <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover/ai:text-cyan-700 transition-colors flex items-center">
+                                    <i class="fas fa-message text-cyan-600 mr-2"></i>
+                                    {% trans "Smart Chat Assistant" %}
                                 </h3>
-                                <p class="text-gray-600 mb-4">
-                                    Get instant answers to your questions about child nutrition, health, and development from our AI assistant.
+                                <p class="text-gray-600 mb-4 font-medium">
+                                    {% trans "Get instant, personalized answers about child nutrition, health, and development from our AI assistant." %}
                                 </p>
-                                <div class="flex items-center text-purple-600 font-semibold">
-                                    <span>Start Conversation</span>
-                                    <svg class="w-5 h-5 ml-2 group-hover/ai:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
+                                <div class="flex items-center text-cyan-600 font-bold">
+                                    <i class="fas fa-play-circle mr-2"></i>
+                                    <span>{% trans "Start Conversation" %}</span>
+                                    <i class="fas fa-arrow-right ml-2 group-hover/ai:translate-x-1 transition-transform"></i>
                                 </div>
                             </div>
                         </a>
 
-                        <a href="#" 
-                           class="group/ai flex items-start p-6 bg-gradient-to-br from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-2xl transition-all duration-300 border border-blue-100 hover:border-blue-200 hover:shadow-lg transform hover:scale-105">
+                        <a href="{% url 'ai_assitance:child_insights_page' %}"
+                           class="group/ai flex items-start p-6 bg-teal-100 hover:bg-teal-200 rounded-2xl transition-all duration-300 border-4 border-teal-400 hover:border-teal-500 hover:shadow-2xl transform hover:scale-105">
                             <div class="flex-shrink-0 mr-6">
-                                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center shadow-lg group-hover/ai:shadow-xl group-hover/ai:scale-110 transition-all duration-300">
-                                    <i class="fas fa-camera text-2xl text-white"></i>
+                                <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-green-600 rounded-2xl flex items-center justify-center shadow-2xl group-hover/ai:shadow-2xl group-hover/ai:scale-110 transition-all duration-300 border-4 border-teal-200">
+                                    <i class="fas fa-chart-line text-4xl text-white drop-shadow-lg"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover/ai:text-blue-700 transition-colors">
-                                    Camera Assistance
-                                    <span class="inline-flex items-center px-2 py-1 ml-2 text-xs font-medium bg-amber-100 text-amber-800 rounded-full">
-                                        Coming Soon
+                                <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover/ai:text-teal-700 transition-colors flex items-center">
+                                    <i class="fas fa-chart-bar text-teal-600 mr-2"></i>
+                                    {% trans "Child Growth Insights" %}
+                                    <span class="inline-flex items-center px-3 py-1 ml-2 text-xs font-bold bg-gradient-to-r from-green-300 to-emerald-400 text-emerald-800 rounded-full border-2 border-emerald-400">
+                                        <i class="fas fa-check text-emerald-800 mr-1"></i>
+                                        {% trans "Available" %}
                                     </span>
                                 </h3>
-                                <p class="text-gray-600 mb-4">
-                                    Use your camera to get AI-powered insights about food portions, meal planning, and visual health assessments.
+                                <p class="text-gray-600 mb-4 font-medium">
+                                    {% trans "Get AI-powered analysis of your children's growth patterns, trends, and personalized nutrition advice." %}
                                 </p>
-                                <div class="flex items-center text-blue-600 font-semibold">
-                                    <span>Learn More</span>
-                                    <svg class="w-5 h-5 ml-2 group-hover/ai:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
+                                <div class="flex items-center text-teal-600 font-bold">
+                                    <i class="fas fa-analytics mr-2"></i>
+                                    <span>{% trans "View Insights" %}</span>
+                                    <i class="fas fa-arrow-right ml-2 group-hover/ai:translate-x-1 transition-transform"></i>
                                 </div>
                             </div>
                         </a>
@@ -269,6 +426,133 @@
 
 <!-- Enhanced Styles -->
 <style>
+    /* Ensure Font Awesome loads properly */
+    .fas, .far, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        font-weight: 900 !important;
+        font-style: normal !important;
+        display: inline-block !important;
+        text-rendering: auto !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+
+    /* Enhanced icon styling with better visibility */
+    .fas {
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Icon color enhancements with better contrast */
+    .text-white {
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    .text-blue-600 { 
+        color: #2563eb !important; 
+        text-shadow: 0 2px 4px rgba(37, 99, 235, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(37, 99, 235, 0.3)) !important;
+    }
+    
+    .text-purple-600 { 
+        color: #9333ea !important; 
+        text-shadow: 0 2px 4px rgba(147, 51, 234, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(147, 51, 234, 0.3)) !important;
+    }
+    
+    .text-emerald-600 { 
+        color: #059669 !important; 
+        text-shadow: 0 2px 4px rgba(5, 150, 105, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(5, 150, 105, 0.3)) !important;
+    }
+    
+    .text-orange-600 { 
+        color: #ea580c !important; 
+        text-shadow: 0 2px 4px rgba(234, 88, 12, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(234, 88, 12, 0.3)) !important;
+    }
+    
+    .text-red-600 { 
+        color: #dc2626 !important; 
+        text-shadow: 0 2px 4px rgba(220, 38, 38, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3)) !important;
+    }
+    
+    .text-cyan-600 { 
+        color: #0891b2 !important; 
+        text-shadow: 0 2px 4px rgba(8, 145, 178, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(8, 145, 178, 0.3)) !important;
+    }
+    
+    .text-teal-600 { 
+        color: #0d9488 !important; 
+        text-shadow: 0 2px 4px rgba(13, 148, 136, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(13, 148, 136, 0.3)) !important;
+    }
+
+    .text-red-500 {
+        color: #ef4444 !important;
+        text-shadow: 0 2px 4px rgba(239, 68, 68, 0.4) !important;
+        filter: drop-shadow(0 2px 4px rgba(239, 68, 68, 0.3)) !important;
+    }
+
+    .text-blue-500 {
+        color: #3b82f6 !important;
+        text-shadow: 0 2px 4px rgba(59, 130, 246, 0.4) !important;
+        filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3)) !important;
+    }
+
+    .text-purple-500 {
+        color: #8b5cf6 !important;
+        text-shadow: 0 2px 4px rgba(139, 92, 246, 0.4) !important;
+        filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.3)) !important;
+    }
+
+    .text-emerald-500 {
+        color: #10b981 !important;
+        text-shadow: 0 2px 4px rgba(16, 185, 129, 0.4) !important;
+        filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.3)) !important;
+    }
+
+    .text-gray-400 {
+        color: #6b7280 !important; /* Changed from #9ca3af to darker gray-500 for better visibility */
+        text-shadow: 0 1px 2px rgba(107, 114, 128, 0.3) !important;
+    }
+
+    .text-gray-500 {
+        color: #6b7280 !important;
+        text-shadow: 0 1px 2px rgba(107, 114, 128, 0.3) !important;
+    }
+
+    .text-gray-600 {
+        color: #4b5563 !important;
+        text-shadow: 0 1px 2px rgba(75, 85, 99, 0.3) !important;
+    }
+
+    .text-orange-800 {
+        color: #9a3412 !important;
+        text-shadow: 0 2px 4px rgba(154, 52, 18, 0.4) !important;
+    }
+
+    /* Enhanced drop shadow effects */
+    .drop-shadow-lg {
+        filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4)) !important;
+    }
+
+    /* Icon hover animations */
+    .group:hover .fas,
+    .group:hover .far,
+    .group:hover .fab {
+        transform: scale(1.1) !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    /* Icon background enhancements */
+    .bg-gradient-to-br {
+        background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)) !important;
+    }
+
     /* Floating background elements */
     .floating-elements {
         position: fixed;
@@ -284,7 +568,7 @@
     .floating-circle {
         position: absolute;
         border-radius: 50%;
-        background: linear-gradient(45deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.08));
+        background: linear-gradient(45deg, rgba(99, 102, 241, 0.02), rgba(168, 85, 247, 0.02));
         animation: float 8s ease-in-out infinite;
     }
 
@@ -342,6 +626,78 @@
         -webkit-text-fill-color: transparent;
     }
 
+    /* Gradient text with fallback */
+    .gradient-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+        /* Fallback color for better visibility */
+        color: #374151; /* gray-700 as fallback */
+    }
+
+    /* Fallback for browsers that don't support background-clip: text */
+    @supports not (background-clip: text) or not (-webkit-background-clip: text) {
+        .gradient-text {
+            background: none !important;
+            -webkit-text-fill-color: #374151 !important; /* gray-700 fallback */
+            color: #374151 !important; /* gray-700 fallback */
+        }
+    }
+
+    /* Additional fallback for webkit browsers with issues */
+    @supports (-webkit-background-clip: text) {
+        .gradient-text {
+            /* Ensure background is visible for clipping */
+            background-image: linear-gradient(to right, #4338ca, #7c3aed, #db2777) !important;
+        }
+    }
+
+    /* Ensure text is visible on all backgrounds */
+    .text-visible {
+        color: #374151 !important; /* gray-700 */
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Override light gray text for better visibility on white background */
+    .text-gray-400,
+    .text-gray-500 {
+        color: #6b7280 !important; /* gray-500 instead of gray-400 */
+    }
+
+    /* Ensure all paragraph text is dark enough */
+    p {
+        color: #4b5563; /* gray-600 as minimum for body text */
+    }
+
+    /* Ensure span elements in cards are visible */
+    .bg-white .text-gray-400,
+    .bg-white .text-gray-500 {
+        color: #6b7280 !important; /* Force gray-500 minimum */
+    }
+
+    /* Better contrast for small text */
+    .text-sm {
+        color: #4b5563 !important; /* gray-600 minimum for small text */
+    }
+
+    /* Force minimum contrast for all text on white background */
+    .bg-white p,
+    .bg-white span,
+    .bg-white div {
+        color: #4b5563; /* gray-600 minimum */
+    }
+
+    /* Ensure icons have proper visibility */
+    .bg-white i.text-gray-500 {
+        color: #6b7280 !important; /* gray-500 for icons */
+    }
+
+    /* Override any remaining light text */
+    .text-gray-300 {
+        color: #6b7280 !important; /* Force gray-500 */
+    }
+
     /* Custom animations */
     @keyframes pulse-slow {
         0%, 100% {
@@ -397,6 +753,118 @@
         .lg\:col-span-2 {
             grid-column: span 1;
         }
+
+        /* Mobile icon size adjustments */
+        .w-20.h-20 { width: 4rem; height: 4rem; }
+        .w-16.h-16 { width: 3.5rem; height: 3.5rem; }
+        .text-4xl { font-size: 2rem; }
+        .text-3xl { font-size: 1.5rem; }
+        .text-2xl { font-size: 1.25rem; }
+        .text-5xl { font-size: 2.5rem; }
+
+        /* Enhanced mobile upload area */
+        #uploadArea {
+            padding: 2rem 1rem;
+        }
+
+        #uploadArea .flex.justify-center.space-x-3 {
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        #uploadArea .flex.justify-center.space-x-3 > * {
+            margin: 0;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        /* Make camera/gallery buttons larger on mobile */
+        #cameraBtn, #galleryBtn {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            width: 100%;
+        }
+    }
+
+    /* Enhanced camera/gallery button styles */
+    #cameraBtn, #galleryBtn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: none;
+        outline: none;
+    }
+
+    #cameraBtn {
+        background-color: #16a34a !important; /* green-600 */
+    }
+
+    #cameraBtn:hover {
+        background-color: #15803d !important; /* green-700 */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3);
+    }
+
+    #galleryBtn {
+        background-color: #2563eb !important; /* blue-600 */
+    }
+
+    #galleryBtn:hover {
+        background-color: #1d4ed8 !important; /* blue-700 */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    #cameraBtn:active, #galleryBtn:active {
+        transform: translateY(0);
+    }
+
+    /* Ensure button text and icons are always white */
+    #cameraBtn, #galleryBtn {
+        color: white !important;
+    }
+
+    #cameraBtn i, #galleryBtn i {
+        color: white !important;
+    }
+
+    /* Notification toast animations */
+    .notification-toast {
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Device-specific styling */
+    @media (max-width: 480px) {
+        /* Very small screens */
+        .text-lg { font-size: 1rem; }
+        .p-8 { padding: 1.5rem; }
+        
+        #uploadArea h3 {
+            font-size: 1rem;
+        }
+        
+        #uploadArea p {
+            font-size: 0.875rem;
+        }
+
+        .notification-toast {
+            left: 1rem;
+            right: 1rem;
+            max-width: none;
+        }
+    }
+
+    /* Improve touch targets for mobile */
+    @media (pointer: coarse) {
+        button, .cursor-pointer {
+            min-height: 44px;
+        }
+        
+        #cameraBtn, #galleryBtn {
+            min-height: 48px;
+        }
     }
 
     /* Smooth backdrop blur fallback */
@@ -441,11 +909,150 @@
             transform: translateY(0);
         }
     }
+
+    /* Icon loading fallback */
+    .fas::before,
+    .far::before,
+    .fab::before {
+        display: inline-block !important;
+        font-style: normal !important;
+        font-variant: normal !important;
+        text-rendering: auto !important;
+        -webkit-font-smoothing: antialiased !important;
+    }
+
+    /* Better icon contrast on colored backgrounds */
+    .bg-gradient-to-br .fas {
+        color: white !important;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5)) !important;
+    }
+
+    /* Food Analysis Section Styles */
+    .text-orange-600 { 
+        color: #ea580c !important; 
+        text-shadow: 0 2px 4px rgba(234, 88, 12, 0.4) !important; 
+        filter: drop-shadow(0 2px 4px rgba(234, 88, 12, 0.3)) !important;
+    }
+
+    .text-red-600 {
+        color: #dc2626 !important;
+        text-shadow: 0 2px 4px rgba(220, 38, 38, 0.4) !important;
+        filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.3)) !important;
+    }
+
+    /* Upload area animations */
+    #uploadArea {
+        transition: all 0.3s ease;
+    }
+
+    #uploadArea:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(234, 88, 12, 0.15);
+    }
+
+    #uploadArea.border-orange-500 {
+        border-color: #f97316 !important;
+        background-color: rgba(251, 146, 60, 0.1) !important;
+        box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+    }
+
+    /* Image preview animations */
+    #imagePreview img {
+        transition: transform 0.3s ease;
+    }
+
+    #imagePreview:hover img {
+        transform: scale(1.02);
+    }
+
+    /* Results container animations */
+    #resultsContainer > div {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideInUp 0.5s ease forwards;
+    }
+
+    #resultsContainer > div:nth-child(1) { animation-delay: 0.1s; }
+    #resultsContainer > div:nth-child(2) { animation-delay: 0.2s; }
+    #resultsContainer > div:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes slideInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Loading animation enhancement */
+    #loadingState {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Button states */
+    #analyzeButton:disabled {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    #analyzeButton:not(:disabled):hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(234, 88, 12, 0.4);
+    }
+
+    /* Food identification badges */
+    .confidence-high { 
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+    }
+
+    .confidence-medium { 
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+    }
+
+    .confidence-low { 
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+    }
+
+    /* Nutrition info grid improvements */
+    .nutrition-grid {
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05));
+        border: 1px solid rgba(59, 130, 246, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    /* Recommendations styling */
+    .recommendation-item {
+        background: rgba(147, 51, 234, 0.05);
+        border-left: 3px solid #8b5cf6;
+        padding: 0.75rem;
+        border-radius: 0 8px 8px 0;
+        margin-bottom: 0.5rem;
+        transition: all 0.2s ease;
+    }
+
+    .recommendation-item:hover {
+        background: rgba(147, 51, 234, 0.1);
+        transform: translateX(4px);
+    }
 </style>
 
 <!-- Enhanced JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Check if Font Awesome is loaded
+        if (!window.FontAwesome) {
+            console.log('Font Awesome loading...');
+        }
+
         // Add intersection observer for scroll animations
         const observerOptions = {
             threshold: 0.1,
@@ -538,20 +1145,6 @@
             welcomeText.innerHTML = `${greeting}, ${userName}!`;
         }
 
-        // Add smooth scroll behavior
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
         // Add loading states for form submissions
         document.getElementById('logout-form').addEventListener('submit', function() {
             const button = this.querySelector('button');
@@ -562,6 +1155,7 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
+                    <i class="fas fa-sign-out-alt mr-2"></i>
                     Signing out...
                 </div>
             `;
@@ -580,16 +1174,425 @@
             });
         });
 
-        // Add progressive enhancement for animations
+        // Progressive enhancement for animations
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         
         if (prefersReducedMotion.matches) {
-            // Disable animations for users who prefer reduced motion
             document.querySelectorAll('.floating-circle').forEach(circle => {
                 circle.style.animation = 'none';
             });
         }
     });
+
+    // Food Image Analysis Functionality
+    let selectedFile = null;
+
+    // Enhanced upload area handlers
+    document.getElementById('uploadArea').addEventListener('click', function() {
+        // On mobile, prioritize camera; on desktop, open gallery
+        if (isMobileDevice()) {
+            document.getElementById('foodImageInput').click();
+        } else {
+            document.getElementById('galleryImageInput').click();
+        }
+    });
+
+    // Camera button handler
+    document.getElementById('cameraBtn').addEventListener('click', function() {
+        document.getElementById('foodImageInput').click();
+    });
+
+    // Gallery button handler  
+    document.getElementById('galleryBtn').addEventListener('click', function() {
+        document.getElementById('galleryImageInput').click();
+    });
+
+    // Detect mobile device
+    function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+               (navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform));
+    }
+
+    // Drag and drop functionality
+    const uploadArea = document.getElementById('uploadArea');
+    
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        uploadArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        uploadArea.classList.add('border-orange-500', 'bg-orange-200');
+    }
+
+    function unhighlight(e) {
+        uploadArea.classList.remove('border-orange-500', 'bg-orange-200');
+    }
+
+    uploadArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0) {
+            handleFileSelect(files[0]);
+        }
+    }
+
+    // File input change handlers for both camera and gallery
+    document.getElementById('foodImageInput').addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0], 'camera');
+        }
+    });
+
+    document.getElementById('galleryImageInput').addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0], 'gallery');
+        }
+    });
+
+    async function handleFileSelect(file, source = 'unknown') {
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            showError('Please select a valid image file (JPEG, PNG, GIF, etc.)');
+            return;
+        }
+
+        // Validate file size (10MB limit)
+        if (file.size > 10 * 1024 * 1024) {
+            showError('File size must be less than 10MB');
+            return;
+        }
+
+        console.log(`Image selected from ${source}:`, file.name, file.type, file.size);
+
+        // Convert to JPEG if not already
+        try {
+            selectedFile = await convertToJpeg(file);
+            console.log('Image converted to JPEG successfully');
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImg').src = e.target.result;
+                document.getElementById('fileName').textContent = `${file.name} (converted to JPEG)`;
+                document.getElementById('imagePreview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(selectedFile);
+
+            // Enable analyze button
+            const analyzeButton = document.getElementById('analyzeButton');
+            analyzeButton.disabled = false;
+            document.getElementById('analyzeButtonText').textContent = 'Analyze Food Image';
+            analyzeButton.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Hide previous results/errors
+            hideAllStates();
+
+            // Show success message
+            showNotification('Image Ready', `Image from ${source} converted to JPEG and ready for analysis`, 'success');
+
+        } catch (error) {
+            console.error('Error converting image:', error);
+            showError('Failed to process image. Please try again.');
+        }
+    }
+
+    // Convert any image file to JPEG Blob with compression
+    async function convertToJpeg(file) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Calculate optimal dimensions (max 1920x1920 for better processing)
+                    let { width, height } = calculateOptimalDimensions(img.width, img.height, 1920);
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // Draw image on canvas with high quality
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Convert to JPEG with good quality (0.85)
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            console.log(`Converted image: ${width}x${height}, size: ${blob.size} bytes`);
+                            resolve(blob);
+                        } else {
+                            reject(new Error('Failed to convert image to JPEG'));
+                        }
+                    }, 'image/jpeg', 0.85);
+                    
+                } catch (error) {
+                    reject(error);
+                }
+            };
+            
+            img.onerror = () => reject(new Error('Failed to load image'));
+            img.src = URL.createObjectURL(file);
+        });
+    }
+
+    // Calculate optimal dimensions while maintaining aspect ratio
+    function calculateOptimalDimensions(originalWidth, originalHeight, maxSize) {
+        if (originalWidth <= maxSize && originalHeight <= maxSize) {
+            return { width: originalWidth, height: originalHeight };
+        }
+        
+        const aspectRatio = originalWidth / originalHeight;
+        
+        if (originalWidth > originalHeight) {
+            return {
+                width: maxSize,
+                height: Math.round(maxSize / aspectRatio)
+            };
+        } else {
+            return {
+                width: Math.round(maxSize * aspectRatio),
+                height: maxSize
+            };
+        }
+    }
+
+    // Remove image handler
+    document.getElementById('removeImage').addEventListener('click', function() {
+        selectedFile = null;
+        document.getElementById('imagePreview').classList.add('hidden');
+        document.getElementById('foodImageInput').value = '';
+        document.getElementById('galleryImageInput').value = '';
+        
+        // Disable analyze button
+        const analyzeButton = document.getElementById('analyzeButton');
+        analyzeButton.disabled = true;
+        document.getElementById('analyzeButtonText').textContent = 'Select Image to Analyze';
+        analyzeButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+        hideAllStates();
+    });
+
+    // Analyze button handler
+    document.getElementById('analyzeButton').addEventListener('click', async function() {
+        if (!selectedFile) return;
+
+        showLoading();
+
+        try {
+            const formData = new FormData();
+            // selectedFile is already converted to JPEG
+            formData.append('image', selectedFile, 'food_image.jpg');
+
+            console.log('Sending JPEG image for analysis...');
+
+            const response = await fetch('/ai_assitance/api/analyze-food/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Analysis successful:', data);
+                showResults(data);
+                showNotification('Analysis Complete', 'Food image analyzed successfully!', 'success');
+            } else {
+                console.error('Analysis failed:', data);
+                showError(data.message || 'Failed to analyze image. Please try again.');
+                showNotification('Analysis Failed', data.message || 'Failed to analyze image', 'error');
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+            showError('Network error: ' + error.message);
+            showNotification('Connection Error', 'Failed to connect to analysis service', 'error');
+        } finally {
+            hideLoading();
+        }
+    });
+
+    function showLoading() {
+        hideAllStates();
+        document.getElementById('loadingState').classList.remove('hidden');
+    }
+
+    function hideLoading() {
+        document.getElementById('loadingState').classList.add('hidden');
+    }
+
+    function showResults(data) {
+        hideAllStates();
+
+        // Food identification
+        const foodIdentification = document.getElementById('foodIdentification');
+        const confidenceClass = data.confidence > 0.7 ? 'text-green-600' : data.confidence > 0.5 ? 'text-yellow-600' : 'text-red-600';
+        const statusClass = data.status === 'success' || data.status === 'Healthy' ? 'bg-green-100 text-green-800' : 
+                           data.status === 'warning' || data.status === 'Uncertain' ? 'bg-yellow-100 text-yellow-800' : 
+                           'bg-red-100 text-red-800';
+
+        foodIdentification.innerHTML = `
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-700">Food:</span>
+                <span class="text-lg font-semibold text-green-800">${data.food || 'Unknown'}</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-700">Confidence:</span>
+                <span class="text-lg font-semibold ${confidenceClass}">${Math.round((data.confidence || 0) * 100)}%</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="font-medium text-gray-700">Status:</span>
+                <span class="px-3 py-1 rounded-full text-sm font-medium ${statusClass}">${data.status}</span>
+            </div>
+        `;
+
+        // Nutritional information
+        const nutritionalInfo = document.getElementById('nutritionalInfo');
+        let nutritionHtml = `<p class="text-gray-700 mb-4">${data.message}</p>`;
+
+        if (data.nutrition_info && Object.keys(data.nutrition_info).length > 0) {
+            nutritionHtml += '<div class="grid grid-cols-2 gap-2 text-sm">';
+            for (const [key, value] of Object.entries(data.nutrition_info)) {
+                nutritionHtml += `
+                    <div class="flex justify-between py-1 border-b border-blue-200">
+                        <span class="text-gray-600 capitalize">${key.replace('_', ' ')}:</span>
+                        <span class="font-medium text-gray-800">${value}</span>
+                    </div>
+                `;
+            }
+            nutritionHtml += '</div>';
+        } else {
+            nutritionHtml += '<p class="text-gray-500 text-sm italic">No detailed nutritional information available for this food.</p>';
+        }
+
+        nutritionalInfo.innerHTML = nutritionHtml;
+
+        // Recommendations
+        if (data.recommendations && data.recommendations.length > 0) {
+            const recommendationsContainer = document.getElementById('recommendationsContainer');
+            const recommendations = document.getElementById('recommendations');
+            
+            let recHtml = '';
+            data.recommendations.forEach(rec => {
+                recHtml += `
+                    <div class="flex items-start">
+                        <i class="fas fa-check-circle text-purple-500 mr-2 mt-0.5 flex-shrink-0"></i>
+                        <span class="text-sm text-purple-700">${rec}</span>
+                    </div>
+                `;
+            });
+            
+            recommendations.innerHTML = recHtml;
+            recommendationsContainer.classList.remove('hidden');
+        } else {
+            document.getElementById('recommendationsContainer').classList.add('hidden');
+        }
+
+        document.getElementById('resultsContainer').classList.remove('hidden');
+    }
+
+    function showError(message) {
+        hideAllStates();
+        document.getElementById('errorMessage').textContent = message;
+        document.getElementById('errorContainer').classList.remove('hidden');
+    }
+
+    function hideAllStates() {
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('resultsContainer').classList.add('hidden');
+        document.getElementById('errorContainer').classList.add('hidden');
+        document.getElementById('recommendationsContainer').classList.add('hidden');
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Enhanced notification system
+    function showNotification(title, message, type = 'info', duration = 4000) {
+        // Remove existing notifications
+        const existingNotifications = document.querySelectorAll('.notification-toast');
+        existingNotifications.forEach(notification => notification.remove());
+
+        const notification = document.createElement('div');
+        notification.className = `notification-toast fixed top-4 right-4 z-50 max-w-sm bg-white rounded-lg shadow-2xl border-l-4 transform translate-x-full transition-all duration-300 ease-out`;
+        
+        const colors = {
+            success: 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50',
+            error: 'border-red-500 bg-gradient-to-r from-red-50 to-pink-50',
+            info: 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50',
+            warning: 'border-yellow-500 bg-gradient-to-r from-yellow-50 to-orange-50'
+        };
+
+        const icons = {
+            success: 'fas fa-check-circle text-green-600',
+            error: 'fas fa-exclamation-circle text-red-600',
+            info: 'fas fa-info-circle text-blue-600',
+            warning: 'fas fa-exclamation-triangle text-yellow-600'
+        };
+
+        notification.className += ` ${colors[type]}`;
+        
+        notification.innerHTML = `
+            <div class="p-4">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <i class="${icons[type]} text-xl"></i>
+                    </div>
+                    <div class="ml-3 flex-1">
+                        <h4 class="text-sm font-bold text-gray-900">${title}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${message}</p>
+                    </div>
+                    <button class="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-600" onclick="this.parentElement.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+
+        // Auto remove
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        }, duration);
+    }
 
     // Add CSS keyframes for ripple effect
     const style = document.createElement('style');
@@ -637,13 +1640,7 @@
     document.head.appendChild(style);
 </script>
 
-{% include 'core/password_change.html' %}
-{% include 'core/profile_edit.html' %}
-
 {% endblock content %}
 
 {% block extra_scripts %}
-{% load static %}
-<script src="{% static 'core/js/password-modal.js' %}"></script>
-<script src="{% static 'core/js/profile-modal.js' %}"></script>
 {% endblock %}

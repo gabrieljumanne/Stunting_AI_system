@@ -1,0 +1,428 @@
+# Swahili Translation for Stunting Project
+# Copyright (C) 2025 Stunting Project
+# This file is distributed under the same license as the Stunting Project package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Stunting Project 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-28 20:53+0000\n"
+"PO-Revision-Date: 2025-06-28 20:40+0000\n"
+"Last-Translator: AI Assistant\n"
+"Language-Team: Swahili\n"
+"Language: sw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ai_assitance/templates/ai_assitance/food_analysis.html:12
+#: dashbord/templates/dashbord/parent.html:222
+msgid "Food Image Analysis"
+msgstr "Uchambuzi wa Picha ya Chakula"
+
+#: ai_assitance/templates/ai_assitance/food_analysis.html:13
+msgid "Upload a food image to get nutritional information"
+msgstr "Pakia picha ya chakula kupata taarifa za lishe"
+
+#: core/forms.py:12
+msgid "Enter your residential address."
+msgstr ""
+
+#: core/forms.py:17
+msgid "Enter your phone number (digit only)."
+msgstr ""
+
+#: core/forms.py:32 core/forms.py:99
+msgid "This email is already in use. "
+msgstr ""
+
+#: core/forms.py:35 core/forms.py:102
+msgid "This email domain is not allowed"
+msgstr ""
+
+#: core/forms.py:38 core/forms.py:105
+msgid "This email provider is not allowed"
+msgstr ""
+
+#: core/forms.py:45
+msgid "Phone number must contain only digits."
+msgstr ""
+
+#: core/forms.py:56
+msgid "Username should not be part of the email"
+msgstr ""
+
+#: core/forms.py:78
+msgid "Enter your professinal ID. "
+msgstr ""
+
+#: core/forms.py:84
+msgid "Enter Your Health Facility name"
+msgstr ""
+
+#: core/forms.py:112
+msgid "This professinal ID is already in use"
+msgstr ""
+
+#: core/forms.py:123
+msgid "Username should not be part of email."
+msgstr ""
+
+#: core/forms.py:144
+msgid "Remember me"
+msgstr ""
+
+#: core/models.py:60
+msgid "email address"
+msgstr ""
+
+#: core/models.py:62
+msgid "email must be unique"
+msgstr ""
+
+#: core/models.py:66
+msgid "User_name"
+msgstr ""
+
+#: core/models.py:71
+msgid "Username must be alphanumeric or should contain underscore"
+msgstr ""
+
+#: core/models.py:76
+msgid "user full name"
+msgstr ""
+
+#: core/models.py:79
+msgid "Enter your full name as appeared on your official document"
+msgstr ""
+
+#: core/models.py:88
+msgid "user role"
+msgstr ""
+
+#: core/models.py:95
+msgid "active"
+msgstr ""
+
+#: core/models.py:97
+msgid "Designates whether this user account should be treated as active"
+msgstr ""
+
+#: core/models.py:101
+msgid "staff"
+msgstr ""
+
+#: core/models.py:103
+msgid "Designates whether this user account should be treated as staff"
+msgstr ""
+
+#: core/models.py:107
+msgid "deleated at"
+msgstr ""
+
+#: core/models.py:110
+msgid "Time stamp for the soft deletion"
+msgstr ""
+
+#: core/models.py:115
+msgid "date joined"
+msgstr ""
+
+#: core/models.py:121
+msgid "language preference"
+msgstr ""
+
+#: core/models.py:124
+msgid "English"
+msgstr ""
+
+#: core/models.py:125
+msgid "swahili"
+msgstr ""
+
+#: core/models.py:126
+msgid "French"
+msgstr ""
+
+#: core/models.py:143
+msgid "user"
+msgstr ""
+
+#: core/models.py:144
+msgid "users"
+msgstr ""
+
+#: core/models.py:177
+msgid "parent address"
+msgstr ""
+
+#: core/models.py:182
+msgid "phone number"
+msgstr ""
+
+#: core/models.py:190
+msgid "Parent Profile"
+msgstr ""
+
+#: core/models.py:200
+msgid "Professional_id"
+msgstr ""
+
+#: core/models.py:205
+msgid "Health facility"
+msgstr ""
+
+#: core/models.py:213
+msgid "Health worker Profile"
+msgstr ""
+
+#: core/views.py:123
+msgid "Invalid redirect URL"
+msgstr ""
+
+#: core/views.py:146
+msgid "Please can use the logout button to logout"
+msgstr ""
+
+#: core/views.py:168
+#, python-brace-format
+msgid "Goodbye, {username}! , You are successfully logged out"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:20
+#, python-format
+msgid "Welcome Back, %(name)s!"
+msgstr "Karibu Tena, %(name)s!"
+
+#: dashbord/templates/dashbord/parent.html:23
+msgid ""
+"Your child's health journey continues here. Track growth, get insights, and "
+"access AI-powered assistance."
+msgstr ""
+"Safari ya afya ya mtoto wako inaendelea hapa. Fuatilia ukuaji, pata "
+"muelekeo, na pata msaada wa AI."
+
+#: dashbord/templates/dashbord/parent.html:44
+msgid "Growth Tracking"
+msgstr "Ufuatiliaji wa Ukuaji"
+
+#: dashbord/templates/dashbord/parent.html:46
+msgid "Monitor your child's development"
+msgstr "Fuatilia maendeleo ya mtoto wako"
+
+#: dashbord/templates/dashbord/parent.html:52
+msgid "New Measurement"
+msgstr "Kipimo Kipya"
+
+#: dashbord/templates/dashbord/parent.html:62
+msgid "Latest Measurement"
+msgstr "Kipimo cha Hivi Karibuni"
+
+#: dashbord/templates/dashbord/parent.html:75
+msgid "Child Name"
+msgstr "Jina la Mtoto"
+
+#: dashbord/templates/dashbord/parent.html:88
+msgid "Birth Date"
+msgstr "Tarehe ya Kuzaliwa"
+
+#: dashbord/templates/dashbord/parent.html:104
+msgid "Healthy Growth"
+msgstr "Ukuaji Mzuri"
+
+#: dashbord/templates/dashbord/parent.html:107
+msgid "Your child is growing well and meeting developmental milestones."
+msgstr "Mtoto wako anakua vizuri na anafuata hatua za maendeleo."
+
+#: dashbord/templates/dashbord/parent.html:117
+msgid "Needs Attention"
+msgstr "Inahitaji Umakini"
+
+#: dashbord/templates/dashbord/parent.html:120
+msgid "Consider consulting with healthcare providers for guidance."
+msgstr "Fikiria kushauriana na watoa huduma za afya kwa mwongozo."
+
+#: dashbord/templates/dashbord/parent.html:132
+msgid "No measurements recorded yet"
+msgstr "Hakuna vipimo vilivyorekodiwa bado"
+
+#: dashbord/templates/dashbord/parent.html:134
+msgid "Start tracking your child's growth today!"
+msgstr "Anza kufuatilia ukuaji wa mtoto wako leo!"
+
+#: dashbord/templates/dashbord/parent.html:152
+msgid "Quick Actions"
+msgstr "Vitendo vya Haraka"
+
+#: dashbord/templates/dashbord/parent.html:154
+msgid "Manage your account settings"
+msgstr "Dhibiti mipangilio ya akaunti yako"
+
+#: dashbord/templates/dashbord/parent.html:166
+msgid "Edit Profile"
+msgstr "Hariri Wasifu"
+
+#: dashbord/templates/dashbord/parent.html:168
+msgid "Update your personal information"
+msgstr "Sasisha taarifa zako za kibinafsi"
+
+#: dashbord/templates/dashbord/parent.html:181
+msgid "Change Password"
+msgstr "Badilisha Nywila"
+
+#: dashbord/templates/dashbord/parent.html:183
+msgid "Update your security credentials"
+msgstr "Sasisha utambulisho wako wa usalama"
+
+#: dashbord/templates/dashbord/parent.html:198
+msgid "Log Out"
+msgstr "Toka"
+
+#: dashbord/templates/dashbord/parent.html:200
+msgid "Sign out of your account"
+msgstr "Toka kwenye akaunti yako"
+
+#: dashbord/templates/dashbord/parent.html:225
+msgid ""
+"Upload a food image to get instant nutritional information and "
+"recommendations"
+msgstr ""
+"Pakia picha ya chakula kupata taarifa za lishe na mapendekezo mara moja"
+
+#: dashbord/templates/dashbord/parent.html:239
+msgid "Upload Food Image"
+msgstr "Pakia Picha ya Chakula"
+
+#: dashbord/templates/dashbord/parent.html:240
+msgid "Click to browse or drag and drop your food image here"
+msgstr "Bofya kutafuta au buruta na dondosha picha ya chakula hapa"
+
+#: dashbord/templates/dashbord/parent.html:241
+msgid "Supported: JPEG, PNG, GIF (Max 10MB)"
+msgstr "Zinazotumika: JPEG, PNG, GIF (Kwa juu ya MB 10)"
+
+#: dashbord/templates/dashbord/parent.html:254
+msgid "Remove"
+msgstr "Ondoa"
+
+#: dashbord/templates/dashbord/parent.html:262
+msgid "Select Image to Analyze"
+msgstr "Chagua Picha ya Kuchambuzi"
+
+#: dashbord/templates/dashbord/parent.html:273
+msgid "Analyzing Image..."
+msgstr "Inachambua Picha..."
+
+#: dashbord/templates/dashbord/parent.html:274
+msgid "Our AI is identifying the food and gathering nutritional information"
+msgstr "AI yetu inagundua chakula na kukusanya taarifa za lishe"
+
+#: dashbord/templates/dashbord/parent.html:285
+msgid "Food Identification"
+msgstr "Utambulishaji wa Chakula"
+
+#: dashbord/templates/dashbord/parent.html:296
+msgid "Nutritional Information"
+msgstr "Taarifa za Lishe"
+
+#: dashbord/templates/dashbord/parent.html:307
+msgid "Recommendations"
+msgstr "Mapendekezo"
+
+#: dashbord/templates/dashbord/parent.html:320
+msgid "Analysis Error"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:342
+msgid "AI-Powered Assistance"
+msgstr "Msaada wa Akili Bandia"
+
+#: dashbord/templates/dashbord/parent.html:345
+msgid ""
+"Get intelligent guidance for your child's growth and development journey"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:361
+msgid "Smart Chat Assistant"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:364
+msgid ""
+"Get instant, personalized answers about child nutrition, health, and "
+"development from our AI assistant."
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:368
+msgid "Start Conversation"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:384
+msgid "Child Growth Insights"
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:387
+msgid "Available"
+msgstr "Inapatikana"
+
+#: dashbord/templates/dashbord/parent.html:391
+msgid ""
+"Get AI-powered analysis of your children's growth patterns, trends, and "
+"personalized nutrition advice."
+msgstr ""
+
+#: dashbord/templates/dashbord/parent.html:395
+msgid "View Insights"
+msgstr ""
+
+#: measurement/models.py:75
+msgid "child name "
+msgstr ""
+
+#: measurement/models.py:80
+msgid "Date of birth"
+msgstr ""
+
+#: measurement/models.py:85
+msgid "child gender"
+msgstr ""
+
+#: measurement/models.py:105
+msgid "children height in cm"
+msgstr ""
+
+#: measurement/models.py:106
+msgid "child weight"
+msgstr ""
+
+#: measurement/models.py:107
+msgid "monthes age for child"
+msgstr ""
+
+#: measurement/models.py:128
+msgid "Height for Age z-score"
+msgstr ""
+
+#: measurement/models.py:129
+msgid "Is Stunted"
+msgstr ""
+
+#: measurement/models.py:130
+msgid "Stunting Severity"
+msgstr ""
+
+#: templates/base.html:9
+msgid "Stunting Project"
+msgstr "Mradi wa Mapungufu ya Ukuaji"
+
+#: templates/base.html:45
+msgid "Account Settings"
+msgstr "Mipangilio ya Akaunti"
+
+#: templates/base.html:48
+msgid "Log out"
+msgstr "Toka"
+
+#: templates/base.html:55
+msgid "Login"
+msgstr "Ingia"

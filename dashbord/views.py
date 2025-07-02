@@ -26,7 +26,7 @@ class ParentDashbord(LoginRequiredMixin, TemplateView):
         if latest_child:
             if latest_measurement := Measurement.objects.filter(child=latest_child).order_by('-date').first():
                 latest_child_result = Result.objects.filter(measurement=latest_measurement).first()
-                context['latest_child_results'] = latest_child_result
+                context['latest_child_result'] = latest_child_result
         
         #context for latest articles (5)
         

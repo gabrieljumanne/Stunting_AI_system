@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+<div class="min-h-screen bg-white relative overflow-hidden">
     <!-- Floating Elements -->
     <div class="floating-elements">
         <div class="floating-circle floating-circle-1"></div>
@@ -20,38 +20,39 @@
     <!-- Main Chat Container -->
     <div class="relative z-10 flex flex-col h-screen">
         <!-- Header with Back Button -->
-        <header class="bg-white/90 backdrop-blur-sm border-b border-purple-100 shadow-sm">
+        <header class="bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <!-- Left side with back button and title -->
                     <div class="flex items-center space-x-4">
                         <!-- Back Button -->
-                        <button onclick="goBack()" class="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full shadow-lg transition-all duration-200 hover:shadow-xl transform hover:scale-105">
-                            <i class="fas fa-arrow-left text-sm"></i>
+                        <button onclick="goBack()" class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white rounded-2xl shadow-2xl transition-all duration-300 hover:shadow-2xl transform hover:scale-105 border-4 border-cyan-200">
+                            <i class="fas fa-arrow-left text-lg drop-shadow-lg"></i>
                         </button>
                         
-                        <div class="flex items-center space-x-3">
+                        <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-robot text-white text-lg"></i>
+                                <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-cyan-200">
+                                    <i class="fas fa-robot text-white text-2xl drop-shadow-lg"></i>
                                 </div>
                             </div>
                             <div>
-                                <h1 class="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                <h1 class="text-2xl font-bold text-gray-800 bg-gradient-to-r from-cyan-600 to-blue-600 bg-clip-text gradient-text flex items-center">
+                                    <i class="fas fa-brain text-cyan-600 mr-2 text-xl"></i>
                                     AI Nutritionist
                                 </h1>
-                                <p class="text-sm text-gray-600">Your Child Health Assistant</p>
+                                <p class="text-cyan-600 font-medium">Your Child Health Assistant</p>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Right side with action buttons -->
-                    <div class="flex items-center space-x-2">
-                        <button id="clearChatBtn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200" title="Clear Chat">
-                            <i class="fas fa-trash-alt"></i>
+                    <div class="flex items-center space-x-3">
+                        <button id="clearChatBtn" class="p-3 text-gray-600 hover:text-red-600 hover:bg-red-100 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg border border-gray-200 hover:border-red-300" title="Clear Chat">
+                            <i class="fas fa-trash-alt text-lg"></i>
                         </button>
-                        <button id="exportChatBtn" class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200" title="Export Chat">
-                            <i class="fas fa-download"></i>
+                        <button id="exportChatBtn" class="p-3 text-gray-600 hover:text-green-600 hover:bg-green-100 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg border border-gray-200 hover:border-green-300" title="Export Chat">
+                            <i class="fas fa-download text-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -67,17 +68,20 @@
                     <div class="message-item ai-message">
                         <div class="flex items-start space-x-4">
                             <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                                    <i class="fas fa-robot text-white text-sm"></i>
+                                <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-cyan-200">
+                                    <i class="fas fa-robot text-white text-2xl drop-shadow-lg"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl rounded-tl-sm p-4 shadow-lg border border-purple-100">
-                                    <div class="flex items-center mb-2">
-                                        <span class="text-sm font-semibold text-purple-700">AI Assistant</span>
-                                        <span class="text-xs text-gray-500 ml-2">Just now</span>
+                                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl rounded-tl-sm p-6 shadow-2xl border-4 border-cyan-200">
+                                    <div class="flex items-center mb-3">
+                                        <span class="text-lg font-bold text-cyan-700 flex items-center">
+                                            <i class="fas fa-sparkles text-cyan-600 mr-2"></i>
+                                            AI Assistant
+                                        </span>
+                                        <span class="text-sm text-gray-500 ml-3 bg-white/70 px-2 py-1 rounded-full">Just now</span>
                                     </div>
-                                    <p class="text-gray-700 leading-relaxed">
+                                    <p class="text-gray-700 leading-relaxed text-lg">
                                         Hello! 👋 I'm your AI assistant specializing in child health and nutrition. I'm here to help you with questions about preventing stunting, proper nutrition for children, and healthy growth development. How can I assist you today?
                                     </p>
                                 </div>
@@ -90,19 +94,22 @@
                 <div id="typingIndicator" class="hidden px-4 py-2">
                     <div class="flex items-start space-x-4">
                         <div class="flex-shrink-0">
-                            <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                                <i class="fas fa-robot text-white text-sm"></i>
+                            <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-2xl border-4 border-cyan-200">
+                                <i class="fas fa-robot text-white text-2xl drop-shadow-lg"></i>
                             </div>
                         </div>
                         <div class="flex-1">
-                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl rounded-tl-sm p-4 shadow-lg border border-purple-100">
-                                <div class="flex items-center space-x-2">
-                                    <div class="flex space-x-1">
-                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce"></div>
-                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                                        <div class="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl rounded-tl-sm p-6 shadow-2xl border-4 border-cyan-200">
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 bg-cyan-500 rounded-full animate-bounce shadow-lg"></div>
+                                        <div class="w-3 h-3 bg-cyan-500 rounded-full animate-bounce shadow-lg" style="animation-delay: 0.1s"></div>
+                                        <div class="w-3 h-3 bg-cyan-500 rounded-full animate-bounce shadow-lg" style="animation-delay: 0.2s"></div>
                                     </div>
-                                    <span class="text-sm text-purple-600">AI is thinking...</span>
+                                    <span class="text-lg font-semibold text-cyan-600 flex items-center">
+                                        <i class="fas fa-brain text-cyan-500 mr-2 animate-pulse"></i>
+                                        AI is thinking...
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -110,44 +117,44 @@
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="px-4 py-2">
-                    <div class="flex flex-wrap gap-2">
+                <div class="px-4 py-3">
+                    <div class="flex flex-wrap gap-3">
                         <button class="quick-action-btn" data-message="What are the best foods to prevent stunting in children?">
-                            <i class="fas fa-apple-alt mr-2"></i>
+                            <i class="fas fa-apple-alt mr-2 text-emerald-600"></i>
                             Nutritious Foods
                         </button>
                         <button class="quick-action-btn" data-message="How can I tell if my child is growing normally?">
-                            <i class="fas fa-chart-line mr-2"></i>
+                            <i class="fas fa-chart-line mr-2 text-blue-600"></i>
                             Growth Tracking
                         </button>
                         <button class="quick-action-btn" data-message="What supplements are important for child development?">
-                            <i class="fas fa-pills mr-2"></i>
+                            <i class="fas fa-pills mr-2 text-purple-600"></i>
                             Supplements
                         </button>
                         <button class="quick-action-btn" data-message="How to create a balanced meal plan for toddlers?">
-                            <i class="fas fa-utensils mr-2"></i>
+                            <i class="fas fa-utensils mr-2 text-orange-600"></i>
                             Meal Planning
                         </button>
                     </div>
                 </div>
 
                 <!-- Input Area -->
-                <div class="p-4 bg-white/90 backdrop-blur-sm border-t border-purple-100">
+                <div class="p-4 bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-lg">
                     <form id="chatForm" class="flex items-end space-x-4">
                         <div class="flex-1">
                             <div class="relative">
                                 <textarea
                                     id="messageInput"
                                     placeholder="Ask me anything about child nutrition and health..."
-                                    class="w-full px-4 py-3 pr-12 border border-purple-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none max-h-32 bg-white/70 backdrop-blur-sm"
+                                    class="w-full px-6 py-4 pr-16 border-4 border-cyan-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-cyan-500/50 focus:border-cyan-500 resize-none max-h-32 bg-white/90 backdrop-blur-sm shadow-2xl text-gray-800 placeholder-gray-500"
                                     rows="1"
                                     maxlength="500"
                                 ></textarea>
-                                <div class="absolute bottom-2 right-2 flex items-center space-x-2">
-                                    <button type="button" id="emojiBtn" class="p-1 text-gray-400 hover:text-gray-600 transition-colors duration-200">
-                                        <i class="fas fa-smile text-sm"></i>
+                                <div class="absolute bottom-3 right-3 flex items-center space-x-3">
+                                    <button type="button" id="emojiBtn" class="p-2 text-gray-500 hover:text-cyan-600 hover:bg-cyan-100 rounded-lg transition-all duration-300">
+                                        <i class="fas fa-smile text-lg"></i>
                                     </button>
-                                    <span id="charCount" class="text-xs text-gray-400">0</span>
+                                    <span id="charCount" class="text-sm text-gray-500 bg-white/80 px-2 py-1 rounded-full border border-gray-200">0</span>
                                 </div>
                             </div>
                         </div>
@@ -155,10 +162,10 @@
                             type="submit"
                             id="sendBtn"
                             disabled
-                            class="p-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-2xl hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+                            class="p-4 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-2xl hover:from-cyan-600 hover:to-blue-700 focus:outline-none focus:ring-4 focus:ring-cyan-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-2xl hover:shadow-2xl transform hover:scale-105 border-4 border-cyan-200"
                         >
-                            <i id="sendIcon" class="fas fa-paper-plane"></i>
-                            <i id="loadingIcon" class="fas fa-spinner fa-spin hidden"></i>
+                            <i id="sendIcon" class="fas fa-paper-plane text-xl drop-shadow-lg"></i>
+                            <i id="loadingIcon" class="fas fa-spinner fa-spin text-xl hidden"></i>
                         </button>
                     </form>
                 </div>
@@ -198,48 +205,74 @@
     .floating-circle {
         position: absolute;
         border-radius: 50%;
-        background: linear-gradient(45deg, rgba(147, 51, 234, 0.1), rgba(236, 72, 153, 0.1));
-        animation: float 6s ease-in-out infinite;
+        background: linear-gradient(45deg, rgba(6, 182, 212, 0.02), rgba(59, 130, 246, 0.02));
+        animation: float 8s ease-in-out infinite;
     }
 
     .floating-circle-1 {
-        width: 80px;
-        height: 80px;
-        top: 10%;
-        left: 10%;
-        animation-delay: 0s;
+        width: 300px;
+        height: 300px;
+        top: 5%;
+        left: 5%;
+        animation-delay: -2s;
     }
 
     .floating-circle-2 {
-        width: 120px;
-        height: 120px;
-        top: 60%;
-        right: 10%;
-        animation-delay: 2s;
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        right: 5%;
+        animation-delay: -4s;
     }
 
     .floating-circle-3 {
-        width: 60px;
-        height: 60px;
-        bottom: 20%;
-        left: 20%;
-        animation-delay: 4s;
+        width: 250px;
+        height: 250px;
+        bottom: 10%;
+        left: 70%;
+        animation-delay: -1s;
     }
 
     .floating-circle-4 {
-        width: 100px;
-        height: 100px;
+        width: 180px;
+        height: 180px;
         top: 30%;
-        right: 30%;
-        animation-delay: 1s;
+        left: 60%;
+        animation-delay: -6s;
     }
 
     @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(180deg); }
+        0%, 100% {
+            transform: translateY(0px) translateX(0px) rotate(0deg);
+        }
+        25% {
+            transform: translateY(-30px) translateX(20px) rotate(90deg);
+        }
+        50% {
+            transform: translateY(-60px) translateX(-10px) rotate(180deg);
+        }
+        75% {
+            transform: translateY(-20px) translateX(-30px) rotate(270deg);
+        }
     }
 
-    /* Enhanced gradient text */
+    /* Enhanced gradient text with fallback */
+    .gradient-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        position: relative;
+    }
+
+    /* Fallback for browsers that don't support background-clip: text */
+    @supports not (background-clip: text) or not (-webkit-background-clip: text) {
+        .gradient-text {
+            background: none !important;
+            -webkit-text-fill-color: inherit !important;
+            color: #0891b2 !important; /* cyan-600 fallback */
+        }
+    }
+
     .bg-clip-text {
         -webkit-background-clip: text;
         background-clip: text;
@@ -247,21 +280,61 @@
 
     /* Custom scrollbar */
     #chatMessages::-webkit-scrollbar {
-        width: 6px;
+        width: 8px;
     }
 
     #chatMessages::-webkit-scrollbar-track {
         background: rgba(243, 244, 246, 0.5);
-        border-radius: 3px;
+        border-radius: 4px;
     }
 
     #chatMessages::-webkit-scrollbar-thumb {
-        background: rgba(147, 51, 234, 0.3);
-        border-radius: 3px;
+        background: linear-gradient(45deg, #06b6d4, #3b82f6);
+        border-radius: 4px;
     }
 
     #chatMessages::-webkit-scrollbar-thumb:hover {
-        background: rgba(147, 51, 234, 0.5);
+        background: linear-gradient(45deg, #0891b2, #2563eb);
+    }
+
+    /* Enhanced icon styling with better visibility */
+    .fas {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)) !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* Icon color enhancements */
+    .text-white {
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .text-cyan-600 { 
+        color: #0891b2 !important; 
+        text-shadow: 0 1px 2px rgba(8, 145, 178, 0.3) !important; 
+    }
+    
+    .text-cyan-700 { 
+        color: #0e7490 !important; 
+        text-shadow: 0 1px 2px rgba(14, 116, 144, 0.3) !important; 
+    }
+
+    .text-blue-600 { 
+        color: #2563eb !important; 
+        text-shadow: 0 1px 2px rgba(37, 99, 235, 0.3) !important; 
+    }
+
+    /* Ensure all text is visible on white background */
+    .text-gray-700 {
+        color: #374151 !important;
+    }
+
+    .text-gray-600 {
+        color: #4b5563 !important;
+    }
+
+    .text-gray-500 {
+        color: #6b7280 !important;
     }
 
     /* Message animations */
@@ -282,12 +355,16 @@
 
     /* Quick action buttons */
     .quick-action-btn {
-        @apply px-3 py-2 text-sm bg-white/70 backdrop-blur-sm border border-purple-200 rounded-full text-purple-700 hover:bg-purple-50 hover:border-purple-300 transition-all duration-200 shadow-sm;
+        @apply px-4 py-3 text-base bg-white/90 backdrop-blur-sm border-4 border-cyan-200 rounded-2xl text-gray-700 hover:bg-cyan-50 hover:border-cyan-400 transition-all duration-300 shadow-lg hover:shadow-2xl font-medium;
     }
 
     .quick-action-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(147, 51, 234, 0.15);
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(6, 182, 212, 0.15);
+    }
+
+    .quick-action-btn i {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
     }
 
     /* Textarea auto-resize */
@@ -309,6 +386,59 @@
         to {
             opacity: 1;
             transform: translateX(0);
+        }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .floating-circle {
+            display: none;
+        }
+        
+        .w-16.h-16 { 
+            width: 3rem; 
+            height: 3rem; 
+        }
+        
+        .text-2xl { 
+            font-size: 1.5rem; 
+        }
+        
+        .text-xl { 
+            font-size: 1.125rem; 
+        }
+        
+        .text-lg { 
+            font-size: 1rem; 
+        }
+        
+        .p-6 { 
+            padding: 1rem; 
+        }
+        
+        .px-6 { 
+            padding-left: 1rem; 
+            padding-right: 1rem; 
+        }
+        
+        .py-4 { 
+            padding-top: 0.75rem; 
+            padding-bottom: 0.75rem; 
+        }
+
+        .quick-action-btn {
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        /* Stack header elements vertically on very small screens */
+        @media (max-width: 480px) {
+            .flex.items-center.space-x-4 {
+                flex-direction: column;
+                align-items: flex-start;
+                space-x: 0;
+                gap: 0.5rem;
+            }
         }
     }
 </style>
@@ -508,13 +638,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const avatarDiv = document.createElement('div');
         avatarDiv.classList.add('flex-shrink-0');
         const avatar = document.createElement('div');
-        avatar.classList.add('w-10', 'h-10', 'rounded-full', 'flex', 'items-center', 'justify-center', 'shadow-lg');
+        avatar.classList.add('w-16', 'h-16', 'rounded-2xl', 'flex', 'items-center', 'justify-center', 'shadow-2xl', 'border-4');
         if (sender === 'user') {
-            avatar.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-500');
-            avatar.innerHTML = '<i class="fas fa-user text-white text-sm"></i>';
+            avatar.classList.add('bg-gradient-to-br', 'from-indigo-500', 'to-purple-600', 'border-indigo-200');
+            avatar.innerHTML = '<i class="fas fa-user text-white text-xl drop-shadow-lg"></i>';
         } else {
-            avatar.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
-            avatar.innerHTML = '<i class="fas fa-robot text-white text-sm"></i>';
+            avatar.classList.add('bg-gradient-to-br', 'from-cyan-500', 'to-blue-600', 'border-cyan-200');
+            avatar.innerHTML = '<i class="fas fa-robot text-white text-xl drop-shadow-lg"></i>';
         }
         avatarDiv.appendChild(avatar);
 
@@ -525,35 +655,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const messageBubble = document.createElement('div');
-        messageBubble.classList.add('rounded-2xl', 'p-4', 'shadow-lg');
+        messageBubble.classList.add('rounded-2xl', 'p-6', 'shadow-2xl', 'border-4');
         if (sender === 'user') {
-            messageBubble.classList.add('bg-gradient-to-r', 'from-indigo-500', 'to-purple-500', 'rounded-tr-sm');
+            messageBubble.classList.add('bg-gradient-to-br', 'from-indigo-500', 'to-purple-600', 'rounded-tr-sm', 'text-white', 'border-indigo-200');
         } else {
-            messageBubble.classList.add('bg-gradient-to-r', 'from-purple-50', 'to-pink-50', 'rounded-tl-sm', 'border', 'border-purple-100');
+            messageBubble.classList.add('bg-gradient-to-br', 'from-cyan-50', 'to-blue-50', 'rounded-tl-sm', 'border-cyan-200');
         }
 
         const headerDiv = document.createElement('div');
-        headerDiv.classList.add('flex', 'items-center', 'mb-2');
+        headerDiv.classList.add('flex', 'items-center', 'mb-3');
         if (sender === 'user') {
             headerDiv.classList.add('justify-end');
         }
 
         const senderName = document.createElement('span');
-        senderName.classList.add('text-sm', 'font-semibold');
+        senderName.classList.add('text-lg', 'font-bold', 'flex', 'items-center');
         if (sender === 'user') {
             senderName.classList.add('text-white');
-            senderName.textContent = 'You';
+            senderName.innerHTML = '<i class="fas fa-user text-white mr-2"></i>You';
         } else {
-            senderName.classList.add('text-purple-700');
-            senderName.textContent = 'AI Assistant';
+            senderName.classList.add('text-cyan-700');
+            senderName.innerHTML = '<i class="fas fa-sparkles text-cyan-600 mr-2"></i>AI Assistant';
         }
 
         const timestampSpan = document.createElement('span');
-        timestampSpan.classList.add('text-xs');
+        timestampSpan.classList.add('text-sm');
         if (sender === 'user') {
-            timestampSpan.classList.add('text-indigo-100', 'mr-2');
+            timestampSpan.classList.add('text-indigo-100', 'mr-3', 'bg-white/20', 'px-2', 'py-1', 'rounded-full');
         } else {
-            timestampSpan.classList.add('text-gray-500', 'ml-2');
+            timestampSpan.classList.add('text-gray-500', 'ml-3', 'bg-white/70', 'px-2', 'py-1', 'rounded-full');
         }
         timestampSpan.textContent = timestamp;
 
@@ -566,7 +696,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const messageText = document.createElement('p');
-        messageText.classList.add('leading-relaxed');
+        messageText.classList.add('leading-relaxed', 'text-lg');
         if (sender === 'user') {
             messageText.classList.add('text-white');
         } else {

@@ -298,4 +298,20 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
             
         messages.error(self.request, "Please correct the errors below")
         return super().form_invalid(form)
+
+
+class AccountSettingsView(LoginRequiredMixin, TemplateView):
+    """Account settings page with profile and other important settings"""
+    template_name = 'core/account_settings.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = _('Account Settings')
+        context['user'] = self.request.user
+        
+        # Add user-specific data
+        if self.request.user.role == 'parent':
+            from measurement.models import Child
+            context['children_count'] = Child.objects.filter(parent=self.request.user).count()
+        
+        return context

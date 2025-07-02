@@ -1,0 +1,517 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-white relative overflow-hidden">
+    <!-- Header -->
+    <div class="bg-white/90 backdrop-blur-sm border-b border-blue-100 shadow-lg mb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button onclick="goBack()" class="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-full shadow-lg transition-all duration-200 hover:shadow-xl transform hover:scale-105">
+                        <i class="fas fa-arrow-left text-lg"></i>
+                    </button>
+                    <div>
+                        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center">
+                            <i class="fas fa-chart-line text-blue-600 mr-3"></i>
+                            Growth Chart for {{ child.name }}
+                        </h1>
+                        <p class="text-gray-600 mt-1">Track growth progress over time</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm text-gray-500">Last updated: 
+                        {% if latest_measurement %}
+                            {{ latest_measurement.date }}
+                        {% else %}
+                            No data
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if measurements_count > 0 %}
+            <!-- Child Info Summary -->
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8 border border-white/20">
+                <div class="flex items-center space-x-6">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-child text-3xl text-white"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-800">{{ child.name }}</h2>
+                        <p class="text-gray-600">Born: {{ child.date_of_birth }}</p>
+                        <p class="text-gray-600">Gender: {{ child.get_gender_display }}</p>
+                    </div>
+                    {% if latest_measurement %}
+                    <div class="grid grid-cols-3 gap-6 text-center">
+                        <div class="bg-blue-100 rounded-xl p-4">
+                            <i class="fas fa-ruler-vertical text-blue-600 text-2xl mb-2"></i>
+                            <p class="text-sm text-blue-700 font-medium">Height</p>
+                            <p class="text-xl font-bold text-blue-900">{{ latest_measurement.height }} cm</p>
+                        </div>
+                        <div class="bg-green-100 rounded-xl p-4">
+                            <i class="fas fa-weight text-green-600 text-2xl mb-2"></i>
+                            <p class="text-sm text-green-700 font-medium">Weight</p>
+                            <p class="text-xl font-bold text-green-900">{{ latest_measurement.weight }} kg</p>
+                        </div>
+                        <div class="bg-purple-100 rounded-xl p-4">
+                            <i class="fas fa-chart-bar text-purple-600 text-2xl mb-2"></i>
+                            <p class="text-sm text-purple-700 font-medium">HAZ Score</p>
+                            <p class="text-xl font-bold text-purple-900">{{ latest_measurement.haz_score|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Chart Navigation -->
+            <div class="mb-6">
+                <div class="flex items-center justify-center space-x-4">
+                    <button onclick="switchChart('height')" id="heightBtn" class="chart-nav-btn active px-6 py-3 rounded-xl font-semibold transition-all duration-200">
+                        <i class="fas fa-ruler-vertical mr-2"></i>
+                        Height Progress
+                    </button>
+                    <button onclick="switchChart('weight')" id="weightBtn" class="chart-nav-btn px-6 py-3 rounded-xl font-semibold transition-all duration-200">
+                        <i class="fas fa-weight mr-2"></i>
+                        Weight Progress
+                    </button>
+                    <button onclick="switchChart('haz')" id="hazBtn" class="chart-nav-btn px-6 py-3 rounded-xl font-semibold transition-all duration-200">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        HAZ Score
+                    </button>
+                </div>
+            </div>
+
+            <!-- Charts Container -->
+            <div class="space-y-8">
+                <!-- Height Chart -->
+                <div id="heightChart" class="chart-container bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-ruler-vertical text-blue-600 mr-3"></i>
+                        Height Growth Over Time
+                    </h3>
+                    <div class="relative h-96">
+                        <canvas id="heightChartCanvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- Weight Chart -->
+                <div id="weightChart" class="chart-container hidden bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-weight text-green-600 mr-3"></i>
+                        Weight Growth Over Time
+                    </h3>
+                    <div class="relative h-96">
+                        <canvas id="weightChartCanvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- HAZ Score Chart -->
+                <div id="hazChart" class="chart-container hidden bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-chart-bar text-purple-600 mr-3"></i>
+                        Height-for-Age Z-Score (HAZ) Over Time
+                    </h3>
+                    <div class="relative h-96">
+                        <canvas id="hazChartCanvas"></canvas>
+                    </div>
+                    <div class="mt-4 p-4 bg-purple-100 rounded-xl border border-purple-200">
+                        <h4 class="font-semibold text-purple-800 mb-2">Understanding HAZ Score:</h4>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-green-500 rounded-full mr-2"></div>
+                                <span>Above -1: Normal growth</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-yellow-500 rounded-full mr-2"></div>
+                                <span>-1 to -2: Moderate stunting</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-4 h-4 bg-red-500 rounded-full mr-2"></div>
+                                <span>Below -2: Severe stunting</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Growth Summary -->
+            <div class="mt-8 bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+                <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-analytics text-indigo-600 mr-3"></i>
+                    Growth Summary
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">Total Measurements</h4>
+                        <p class="text-2xl font-bold text-indigo-600">{{ measurements_count }}</p>
+                    </div>
+                    {% if latest_measurement %}
+                    <div>
+                        <h4 class="font-semibold text-gray-700 mb-2">Current Status</h4>
+                        <span class="status-badge {{ latest_measurement.is_stunted|yesno:'status-severe,status-normal' }}">
+                            <i class="fas {{ latest_measurement.is_stunted|yesno:'fa-exclamation-triangle,fa-check-circle' }} mr-2"></i>
+                            {{ latest_measurement.is_stunted|yesno:'Stunted,Normal Growth' }}
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+        {% else %}
+            <!-- No Data State -->
+            <div class="text-center py-16">
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+                    <i class="fas fa-chart-line text-4xl text-gray-400"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-700 mb-4">No Measurement Data Available</h3>
+                <p class="text-gray-500 mb-8 max-w-md mx-auto">
+                    Start tracking {{ child.name }}'s growth by taking the first measurement.
+                </p>
+                <a href="{% url 'measurement:child_measure' child.id %}" 
+                   class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <i class="fas fa-plus mr-3"></i>
+                    Take First Measurement
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .chart-nav-btn {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #6b7280;
+    }
+
+    .chart-nav-btn.active {
+        background: linear-gradient(135deg, #3b82f6, #6366f1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    }
+
+    .chart-nav-btn:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.9);
+        transform: translateY(-2px);
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .status-normal {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-severe {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .bg-clip-text {
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
+<script>
+// Chart data from Django
+const chartData = {{ chart_data_json|safe }};
+
+let heightChart, weightChart, hazChart;
+
+function goBack() {
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = '/ai_assitance/child-insights/';
+    }
+}
+
+function initializeCharts() {
+    if (chartData.length === 0) return;
+
+    // Prepare data for charts
+    const labels = chartData.map(item => item.date);
+    const heightData = chartData.map(item => item.height);
+    const weightData = chartData.map(item => item.weight);
+    const hazData = chartData.map(item => item.haz_score);
+
+    // Height Chart
+    const heightCtx = document.getElementById('heightChartCanvas').getContext('2d');
+    heightChart = new Chart(heightCtx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Height (cm)',
+                data: heightData,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#3b82f6',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 1,
+                    callbacks: {
+                        afterBody: function(context) {
+                            const index = context[0].dataIndex;
+                            const age = chartData[index].age_months;
+                            return `Age: ${Math.floor(age/12)}y ${age%12}m`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Height (cm)',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Weight Chart
+    const weightCtx = document.getElementById('weightChartCanvas').getContext('2d');
+    weightChart = new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Weight (kg)',
+                data: weightData,
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: '#10b981',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#10b981',
+                    borderWidth: 1,
+                    callbacks: {
+                        afterBody: function(context) {
+                            const index = context[0].dataIndex;
+                            const age = chartData[index].age_months;
+                            return `Age: ${Math.floor(age/12)}y ${age%12}m`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Weight (kg)',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+
+    // HAZ Score Chart
+    const hazCtx = document.getElementById('hazChartCanvas').getContext('2d');
+    hazChart = new Chart(hazCtx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'HAZ Score',
+                    data: hazData,
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: hazData.map(score => {
+                        if (score >= -1) return '#10b981'; // Green for normal
+                        if (score >= -2) return '#f59e0b'; // Yellow for moderate
+                        return '#ef4444'; // Red for severe
+                    }),
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                },
+                {
+                    label: 'Normal threshold (-1)',
+                    data: Array(labels.length).fill(-1),
+                    borderColor: '#10b981',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                },
+                {
+                    label: 'Stunting threshold (-2)',
+                    data: Array(labels.length).fill(-2),
+                    borderColor: '#ef4444',
+                    borderDash: [5, 5],
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#8b5cf6',
+                    borderWidth: 1,
+                    callbacks: {
+                        afterBody: function(context) {
+                            const index = context[0].dataIndex;
+                            const age = chartData[index].age_months;
+                            const isStunted = chartData[index].is_stunted;
+                            const severity = chartData[index].severity;
+                            return [
+                                `Age: ${Math.floor(age/12)}y ${age%12}m`,
+                                `Status: ${isStunted ? severity + ' Stunting' : 'Normal Growth'}`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'HAZ Score',
+                        font: { weight: 'bold' }
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function switchChart(chartType) {
+    // Hide all charts
+    document.querySelectorAll('.chart-container').forEach(container => {
+        container.classList.add('hidden');
+    });
+
+    // Remove active class from all buttons
+    document.querySelectorAll('.chart-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Show selected chart and activate button
+    document.getElementById(chartType + 'Chart').classList.remove('hidden');
+    document.getElementById(chartType + 'Btn').classList.add('active');
+}
+
+// Initialize charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    if (chartData.length > 0) {
+        initializeCharts();
+    }
+});
+</script>
+{% endblock %}

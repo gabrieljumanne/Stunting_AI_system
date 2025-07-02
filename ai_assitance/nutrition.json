@@ -1,0 +1,22 @@
+{
+  "Ndizi": {
+    "status": "Salama",
+    "message": "Ndizi ni chanzo kizuri cha virutubisho na husaidia kuzuia utapiamlo na kudumaa."
+  },
+  "Ugali": {
+    "status": "Salama kwa kiasi",
+    "message": "Ugali ni chakula kikuu kinachotoa wanga, lakini kinahitaji kuliwa pamoja na protini kama maharage au mayai ili kuzuia kudumaa."
+  },
+  "Mandazi": {
+    "status": "Sio salama",
+    "message": "Mandazi yana mafuta mengi na sukari, hayana virutubisho muhimu vya ukuaji wa mtoto, na yakiliwa kupita kiasi yanaweza kuchangia kudumaa."
+  },
+  "Mayai": {
+    "status": "Salama",
+    "message": "Mayai ni chanzo bora cha protini na madini muhimu kwa ukuaji wa mtoto na kuzuia kudumaa."
+  },
+  "Maharage": {
+    "status": "Salama",
+    "message": "Maharage yana protini nyingi na chuma ambavyo ni muhimu kwa kuzuia utapiamlo na kudumaa."
+  }
+}

@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 relative overflow-hidden py-12">
+<div class="min-h-screen bg-white relative overflow-hidden py-12">
     <!-- Floating Elements -->
     <div class="floating-elements">
         <div class="floating-circle floating-circle-1"></div>
@@ -45,7 +45,7 @@
                 </div>
 
                 <!-- Measurement Instructions -->
-                <div class="mb-8 p-6 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border border-emerald-100">
+                <div class="mb-8 p-6 bg-emerald-100 rounded-2xl border border-emerald-200">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,7 +143,7 @@
                     <!-- Action Buttons -->
                     <div class="flex flex-col gap-4 mt-8">
                         <button type="submit" 
-                                class="group/btn w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-blue py-4 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-lg flex items-center justify-center">
+                                class="group/btn w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-4 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold text-lg flex items-center justify-center">
                             <svg class="w-6 h-6 mr-3 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
@@ -164,7 +164,7 @@
                 </form>
 
                 <!-- Additional Help Section -->
-                <div class="mt-8 p-6 bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100">
+                <div class="mt-8 p-6 bg-amber-100 rounded-2xl border border-amber-200">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,7 +201,7 @@
     .floating-circle {
         position: absolute;
         border-radius: 50%;
-        background: linear-gradient(45deg, rgba(16, 185, 129, 0.08), rgba(20, 184, 166, 0.08));
+        background: linear-gradient(45deg, rgba(16, 185, 129, 0.02), rgba(20, 184, 166, 0.02));
         animation: float 8s ease-in-out infinite;
     }
 
